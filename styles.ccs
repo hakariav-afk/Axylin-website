@@ -52,19 +52,23 @@ body{margin:0;background:linear-gradient(180deg, #ffffff 0%, #fbfff8 100%);line-
 .hero-slider{position:relative}
 .hero-slide{
   display:block;
-  padding:1rem;
+  padding:1.6rem;
   border-radius:12px;
   background:linear-gradient(180deg,#fff,#fbfff8);
   box-shadow:var(--shadow);
   margin-bottom:1rem;
   opacity:1;
   transition:opacity 420ms ease;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  min-height:220px;
 }
-/* For accessibility and reduced-motion we use simple show/hide,
-   but crossfade is supported via opacity and pointer-events rules */
-.hero-slide[aria-hidden="true"]{opacity:0;pointer-events:none;position:relative;height:0;overflow:hidden;padding:0;border:0;margin:0}
+.hero-slide[aria-hidden="true"]{
+  opacity:0;pointer-events:none;height:0;overflow:hidden;padding:0;border:0;margin:0;
+}
 .hero-copy{max-width:640px}
-.hero-title{font-size:1.9rem;margin:0 0 0.5rem}
+.hero-title{font-size:1.9rem;margin:0 0 0.5rem;color:var(--text)}
 .hero-lead{margin:0 0 1rem;color:var(--muted)}
 .slider-dots{display:flex;gap:0.5rem;margin-top:1rem}
 .slider-dots .dot{width:10px;height:10px;border-radius:50%;background:#dbeee3;border:0;cursor:pointer}
@@ -87,6 +91,7 @@ body{margin:0;background:linear-gradient(180deg, #ffffff 0%, #fbfff8 100%);line-
 .card .card-body{margin:0;color:var(--muted)}
 .card:focus{outline:none;box-shadow:0 12px 28px rgba(11,11,11,0.08)}
 .card:hover{transform:translateY(-6px);transition:transform .18s}
+.feature-icon{width:84px;height:84px;display:block;margin:0 auto 0.6rem}
 
 /* Why */
 .why-inner{display:flex;flex-direction:column}
@@ -106,7 +111,7 @@ body{margin:0;background:linear-gradient(180deg, #ffffff 0%, #fbfff8 100%);line-
 }
 .form-row input:focus, .form-row select:focus, .form-row textarea:focus{outline:none;box-shadow:var(--focus)}
 .field-error{color:#b82f2f;font-size:0.9rem;min-height:1.2rem}
-.form-actions{display:flex;gap:0.75rem;align-items:center}
+.form-actions{display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap}
 .form-status{color:var(--brand-green);font-weight:600}
 
 /* FAQ */
