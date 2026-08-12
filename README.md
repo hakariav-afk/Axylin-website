@@ -15,7 +15,7 @@ Design goals
 - No paid frameworks or services required.
 
 Brand color
-- Primary brand color: Edina Green
+- Primary brand color: Green
 - Hex: #0f6b3a
 - The color is defined in `styles.css` under the `:root` selector as the `--brand` CSS variable. Edit that variable to change the site-wide primary color.
 
