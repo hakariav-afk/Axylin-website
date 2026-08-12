@@ -1,5 +1,5 @@
 /* ========= Configuration ========= */
-/* Single source of truth for session price as requested */
+/* Single source of truth for session price */
 const SESSION_PRICE = 10;
 
 const CONFIG = {
@@ -25,7 +25,7 @@ const CONFIG = {
 function qs(sel, parent = document){ return parent.querySelector(sel); }
 function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(sel)); }
 
-/* ========= Slider (hero carousel) ========= */
+/* ========= Slider (hero carousel with autoplay) ========= */
 (function Slider(){
   const container = qs(CONFIG.selectors.heroSlider);
   const slides = qsa(CONFIG.selectors.heroSlides);
@@ -33,9 +33,9 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
   if(!container || slides.length === 0) return;
 
   // Autoplay configuration
-  const AUTOPLAY_ENABLED = true;            // set false to disable autoplay entirely
-  const AUTOPLAY_INTERVAL = 6000;          // ms between automatic slide changes
-  const USER_PAUSE_AFTER_INTERACT = 20000; // ms to wait after user interaction before resuming
+  const AUTOPLAY_ENABLED = true;
+  const AUTOPLAY_INTERVAL = 6000;
+  const USER_PAUSE_AFTER_INTERACT = 20000;
 
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let current = 0;
@@ -55,15 +55,10 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
     });
     dots.forEach((d, i) => d.setAttribute('aria-selected', String(i === index)));
     current = index;
-
-    if (userInitiated) {
-      pauseTemporary(USER_PAUSE_AFTER_INTERACT);
-    }
+    if (userInitiated) pauseTemporary(USER_PAUSE_AFTER_INTERACT);
   }
 
-  function next() {
-    show((current + 1) % slides.length);
-  }
+  function next() { show((current + 1) % slides.length); }
 
   function startAutoplay() {
     if (!AUTOPLAY_ENABLED || reduceMotion) return;
@@ -75,20 +70,14 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
   }
 
   function stopAutoplay() {
-    if (autoplayId) {
-      clearInterval(autoplayId);
-      autoplayId = null;
-    }
+    if (autoplayId) { clearInterval(autoplayId); autoplayId = null; }
   }
 
   function pauseTemporary(ms = USER_PAUSE_AFTER_INTERACT) {
     stopAutoplay();
     clearTimeout(pauseTimeout);
     if (!reduceMotion && AUTOPLAY_ENABLED) {
-      pauseTimeout = setTimeout(() => {
-        startAutoplay();
-        pauseTimeout = null;
-      }, ms);
+      pauseTimeout = setTimeout(() => { startAutoplay(); pauseTimeout = null; }, ms);
     }
   }
 
@@ -118,7 +107,7 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
     else if (e.key === 'ArrowRight') { show(current + 1, { userInitiated: true }); }
   });
 
-  // Expose API for nav code and external controls
+  // Expose API for external controls
   window.Slider = {
     goTo: (i) => { show(i, { userInitiated: true }); },
     next: () => next(),
@@ -138,12 +127,11 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
   const navLinks = qsa(CONFIG.selectors.navLinks);
   const sections = qsa(CONFIG.selectors.sections);
 
-  if(!navToggle || !navMenu) {
-    console.warn('Navigation: nav elements missing');
+  if(!navToggle || !navMenu){
+    console.warn('Navigation: missing elements');
     return;
   }
 
-  // Map anchors to slide indexes (must match slider order)
   const anchorToSlide = {
     '#home': 0,
     '#why': 1,
@@ -152,14 +140,12 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
     '#contact': 4
   };
 
-  // Toggle mobile menu
   navToggle.addEventListener('click', () => {
     const open = navMenu.classList.toggle('open');
     navToggle.setAttribute('aria-expanded', String(open));
     navToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   });
 
-  // Close on nav link click (mobile) and set slider
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
@@ -182,7 +168,6 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
     });
   });
 
-  // Highlight nav links as sections enter viewport
   if(sections.length && navLinks.length){
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -195,7 +180,6 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
         }
       });
     }, {threshold: [0.45, 0.6]});
-
     sections.forEach(s => observer.observe(s));
   }
 })();
@@ -203,10 +187,7 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
 /* ========= Price handling ========= */
 (function Price(){
   const priceEls = qsa(CONFIG.selectors.sessionPrice);
-  if(priceEls.length === 0){
-    console.warn('Price: no elements with data-price found');
-    return;
-  }
+  if(priceEls.length === 0){ console.warn('Price: no elements with data-price found'); return; }
   priceEls.forEach(el => { el.textContent = String(SESSION_PRICE); });
 })();
 
@@ -222,6 +203,7 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
   function clearFieldErrors(form){ qsaLocal('.field-error', form).forEach(e => e.textContent = ''); qsaLocal('[aria-invalid="true"]', form).forEach(f => f.removeAttribute('aria-invalid')); }
   function isEmailValid(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
+  /* Booking form */
   const bookingForm = qs(CONFIG.selectors.bookingForm);
   if(bookingForm){
     const status = qs('#booking-form-status');
@@ -233,17 +215,18 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
       const date = qsLocal('#booking-date', bookingForm);
       const time = qsLocal('#booking-time', bookingForm);
       let ok = true;
-      if(!name.value.trim()){ showFieldError(name, 'Please enter your full name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
-      if(!grade.value){ showFieldError(grade, 'Please select a grade'); ok=false; }
-      if(!date.value){ showFieldError(date, 'Please select a preferred date'); ok=false; }
-      if(!time.value){ showFieldError(time, 'Please select a preferred time'); ok=false; }
+      if(!name.value.trim()){ showFieldError(name,'Please enter your full name'); ok=false; }
+      if(!email.value.trim()){ showFieldError(email,'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email,'Please enter a valid email address'); ok=false; }
+      if(!grade.value){ showFieldError(grade,'Please select a grade'); ok=false; }
+      if(!date.value){ showFieldError(date,'Please select a preferred date'); ok=false; }
+      if(!time.value){ showFieldError(time,'Please select a preferred time'); ok=false; }
       if(!ok){ if(status) status.textContent = 'Please correct the errors above.'; return; }
       if(status) status.textContent = 'Booking request submitted. We will review your request and contact you to confirm availability.';
       bookingForm.reset();
     });
   }
 
+  /* Tutor form */
   const tutorForm = qs(CONFIG.selectors.tutorForm);
   if(tutorForm){
     const status = qs('#tutor-form-status');
@@ -254,16 +237,17 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
       const education = qsLocal('#tutor-education', tutorForm);
       const why = qsLocal('#tutor-why', tutorForm);
       let ok = true;
-      if(!name.value.trim()){ showFieldError(name, 'Please enter your full name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
-      if(!education.value.trim()){ showFieldError(education, 'Please provide your education or grade level'); ok=false; }
-      if(!why.value.trim()){ showFieldError(why, 'Please tell us why you want to tutor'); ok=false; }
+      if(!name.value.trim()){ showFieldError(name,'Please enter your full name'); ok=false; }
+      if(!email.value.trim()){ showFieldError(email,'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email,'Please enter a valid email address'); ok=false; }
+      if(!education.value.trim()){ showFieldError(education,'Please provide your education or grade level'); ok=false; }
+      if(!why.value.trim()){ showFieldError(why,'Please tell us why you want to tutor'); ok=false; }
       if(!ok){ if(status) status.textContent = 'Please correct the errors above.'; return; }
       if(status) status.textContent = 'Application submitted locally. We will review and contact you if there is a role match.';
       tutorForm.reset();
     });
   }
 
+  /* Contact form */
   const contactForm = qs(CONFIG.selectors.contactForm);
   if(contactForm){
     const status = qs('#contact-form-status');
@@ -274,10 +258,10 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
       const who = qsLocal('#contact-who', contactForm);
       const msg = qsLocal('#contact-message', contactForm);
       let ok = true;
-      if(!name.value.trim()){ showFieldError(name, 'Please enter your name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
-      if(!who.value){ showFieldError(who, 'Please select an option'); ok=false; }
-      if(!msg.value.trim()){ showFieldError(msg, 'Please enter a message'); ok=false; }
+      if(!name.value.trim()){ showFieldError(name,'Please enter your name'); ok=false; }
+      if(!email.value.trim()){ showFieldError(email,'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email,'Please enter a valid email address'); ok=false; }
+      if(!who.value){ showFieldError(who,'Please select an option'); ok=false; }
+      if(!msg.value.trim()){ showFieldError(msg,'Please enter a message'); ok=false; }
       if(!ok){ if(status) status.textContent = 'Please correct the errors above.'; return; }
       if(status) status.textContent = 'Message submitted locally. We will reply if necessary. This is not an automatic email response.';
       contactForm.reset();
@@ -321,13 +305,10 @@ function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(
   revealEls.forEach(el => observer.observe(el));
 })();
 
-/* ========= Accessibility helpers ========= */
+/* ========= Accessibility helpers & sanity checks ========= */
 (function Accessibility(){
   const yearEl = qs('#copyright-year'); if(yearEl) yearEl.textContent = new Date().getFullYear();
   qsa('.card[tabindex]').forEach(c => { c.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') c.click && c.click(); }); });
-})();
-
-/* ========= Sanity checks ========= */
-(function Sanity(){
-  qsa('a[data-nav]').forEach(a => { const href = a.getAttribute('href') || ''; if(href.startsWith('#')){ const target = document.querySelector(href); if(!target){ console.warn(`Navigation link points to missing target: ${href}`); } } });
+  // Sanity: warn if nav anchors target missing ids
+  qsa('a[data-nav]').forEach(a => { const href = a.getAttribute('href') || ''; if(href.startsWith('#')){ const target = document.querySelector(href); if(!target) console.warn(`Navigation link points to missing target: ${href}`); } });
 })();
