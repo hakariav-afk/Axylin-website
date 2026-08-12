@@ -1,286 +1,162 @@
-/* ========= Configuration ========= */
-const CONFIG = {
-  SESSION_PRICE: 10, // single source of truth for session price
-  selectors: {
-    navToggle: '#nav-toggle',
-    navMenu: '#nav-menu',
-    navLinks: 'a[data-nav]',
-    sections: 'main section[id]',
-    reveal: '.reveal',
-    sessionPrice: '[data-price]',
-    bookingForm: '#booking-form',
-    tutorForm: '#tutor-form',
-    contactForm: '#contact-form',
-    faqQuestions: '.faq-question',
-    faqItems: '.faq-item'
-  }
-};
+:root{
+  --brand-green: #0f6b3a;
+  --green-100: #eaf6ee;
+  --bg: #ffffff;
+  --muted: #6b6b6b;
+  --text: #0b0b0b;
+  --card-radius: 12px;
+  --shadow: 0 6px 18px rgba(11,11,11,0.06);
+  --max-width: 1100px;
+  --focus: 3px solid rgba(15,107,58,0.18);
+}
 
-/* ========= Utilities ========= */
-function qs(sel, parent = document){ return parent.querySelector(sel); }
-function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(sel)); }
-function elExists(el){ return el !== null && el !== undefined; }
-function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textContent = text; }
+/* Basic resets */
+*{box-sizing:border-box}
+html{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg, #ffffff 0%, #fbfff8 100%);line-height:1.45}
+.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
 
-/* ========= Navigation ========= */
-(function Navigation(){
-  const navToggle = qs(CONFIG.selectors.navToggle);
-  const navMenu = qs(CONFIG.selectors.navMenu);
-  const navLinks = qsa(CONFIG.selectors.navLinks);
-  const sections = qsa(CONFIG.selectors.sections);
+/* Skip link */
+.skip-link{
+  position:fixed;left:1rem;top:1rem;background:var(--brand-green);color:#fff;padding:0.5rem 0.75rem;border-radius:6px;z-index:60;transform:translateY(-200%);transition:transform .2s;
+}
+.skip-link:focus{transform:translateY(0)}
 
-  if(!navToggle || !navMenu) {
-    console.warn('Navigation: nav elements missing');
-    return;
-  }
+/* Header */
+.site-header{background:#fff;border-bottom:1px solid #eef6ee;position:sticky;top:0;z-index:50}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.75rem 0}
+.brand{display:flex;gap:0.75rem;align-items:center}
+.brand-mark{flex-shrink:0;border-radius:6px}
+.brand-title{margin:0;font-size:1.1rem}
+.brand-tag{margin:0;font-size:0.82rem;color:var(--muted)}
 
-  // Toggle mobile menu
-  navToggle.addEventListener('click', () => {
-    const open = navMenu.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', String(open));
-    navToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
-  });
+/* Navigation */
+.nav{display:block}
+.nav-list{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
+.nav-list a{display:inline-block;padding:0.6rem 0.5rem;color:var(--text);text-decoration:none;border-radius:6px}
+.nav-list a:hover, .nav-list a:focus{background:var(--green-100);outline:none}
+.nav-list a.active{color:var(--brand-green);font-weight:600;border-bottom:3px solid var(--brand-green)}
 
-  // Close on nav link click (mobile)
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      // Smooth scroll to the anchor target (improve keyboard behavior)
-      const href = link.getAttribute('href');
-      if(href && href.startsWith('#')){
-        const target = document.querySelector(href);
-        if(target){
-          e.preventDefault();
-          target.scrollIntoView({behavior:'smooth', block:'start'});
-          // close menu if open
-          if(navMenu.classList.contains('open')){
-            navMenu.classList.remove('open');
-            navToggle.setAttribute('aria-expanded','false');
-            navToggle.setAttribute('aria-label','Open navigation');
-          }
-        }
-      }
-    });
-  });
+/* Hamburger */
+.nav-toggle{display:none;background:transparent;border:0;padding:0.5rem;border-radius:8px}
+.nav-toggle:focus{outline:none;box-shadow:var(--focus)}
+.hamburger{display:inline-block;width:34px;height:22px;position:relative}
+.hamburger .line{position:absolute;left:0;right:0;height:3px;background:var(--text);border-radius:3px;transition:transform .25s,opacity .2s}
+.hamburger .line:nth-child(1){top:0}
+.hamburger .line:nth-child(2){top:9px}
+.hamburger .line:nth-child(3){bottom:0}
 
-  // Highlight nav links as sections enter viewport
-  if(sections.length && navLinks.length){
-    const sectionMap = {};
-    sections.forEach(s => sectionMap[s.id] = s);
+/* Hero slider */
+.hero{padding:3rem 0}
+.hero-inner{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center}
+.hero-slider{position:relative}
+.hero-slide{
+  display:block;
+  padding:1rem;
+  border-radius:12px;
+  background:linear-gradient(180deg,#fff,#fbfff8);
+  box-shadow:var(--shadow);
+  margin-bottom:1rem;
+  opacity:1;
+  transition:opacity 420ms ease;
+}
+/* For accessibility and reduced-motion we use simple show/hide,
+   but crossfade is supported via opacity and pointer-events rules */
+.hero-slide[aria-hidden="true"]{opacity:0;pointer-events:none;position:relative;height:0;overflow:hidden;padding:0;border:0;margin:0}
+.hero-copy{max-width:640px}
+.hero-title{font-size:1.9rem;margin:0 0 0.5rem}
+.hero-lead{margin:0 0 1rem;color:var(--muted)}
+.slider-dots{display:flex;gap:0.5rem;margin-top:1rem}
+.slider-dots .dot{width:10px;height:10px;border-radius:50%;background:#dbeee3;border:0;cursor:pointer}
+.slider-dots .dot[aria-selected="true"]{background:var(--brand-green);box-shadow:0 4px 10px rgba(15,107,58,0.14)}
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const id = entry.target.id;
-        const link = qsa(`a[href="#${id}"]`)[0];
-        if(!link) return;
-        if(entry.isIntersecting && entry.intersectionRatio >= 0.45){
-          navLinks.forEach(l => l.classList.remove('active'));
-          link.classList.add('active');
-        }
-      });
-    }, {threshold: [0.45, 0.6]});
+/* Hero visual */
+.hero-visual{display:flex;justify-content:center;align-items:center;margin-top:1rem}
+.math-svg{width:100%;max-width:420px;border-radius:12px}
 
-    sections.forEach(s => observer.observe(s));
-  }
-})();
+/* Sections */
+.section{padding:2rem 0}
+.section-title{margin:0 0 0.25rem;font-size:1.25rem}
+.section-sub{margin:0 0 1rem;color:var(--muted)}
 
-/* ========= Price handling ========= */
-(function Price(){
-  const priceEls = qsa(CONFIG.selectors.sessionPrice);
-  if(priceEls.length === 0){
-    // Not fatal, but log
-    console.warn('Price: no elements with data-price found');
-    return;
-  }
-  priceEls.forEach(el => {
-    el.textContent = String(CONFIG.SESSION_PRICE);
-  });
-})();
+/* Cards / Offers */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.card{background:#fff;border-radius:var(--card-radius);padding:1rem;box-shadow:var(--shadow);border:1px solid rgba(15,107,58,0.04)}
+.card.small{padding:0.8rem}
+.card .card-title{margin:0 0 0.4rem;font-weight:700}
+.card .card-body{margin:0;color:var(--muted)}
+.card:focus{outline:none;box-shadow:0 12px 28px rgba(11,11,11,0.08)}
+.card:hover{transform:translateY(-6px);transition:transform .18s}
 
-/* ========= Forms (front-end only) ========= */
-(function Forms(){
-  // Common validation helpers
-  function showFieldError(field, message){
-    const container = document.querySelector(`.field-error[data-for="${field.id}"]`);
-    if(container) container.textContent = message || '';
-    field.setAttribute('aria-invalid', message ? 'true' : 'false');
-  }
-  function clearFieldErrors(form){
-    qsa('.field-error', form).forEach(e => e.textContent = '');
-    qsa('[aria-invalid="true"]', form).forEach(f => f.removeAttribute('aria-invalid'));
-  }
-  function isEmailValid(email){
-    // lightweight email validation
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
+/* Why */
+.why-inner{display:flex;flex-direction:column}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+.why-item{background:var(--green-100);padding:1rem;border-radius:10px;color:var(--brand-green);}
 
-  /* Booking form */
-  const bookingForm = qs(CONFIG.selectors.bookingForm);
-  if(bookingForm){
-    const status = qs('#booking-form-status');
-    bookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearFieldErrors(bookingForm);
+/* Tutoring layout */
+.tutoring-inner{display:grid;grid-template-columns:1fr 360px;gap:1.25rem;align-items:start}
+.features-list{list-style:disc;margin:0 0 1rem 1.25rem;color:var(--muted)}
+.pricing .price{font-size:1.1rem;font-weight:700;color:var(--brand-green)}
 
-      const name = qs('#booking-name', bookingForm);
-      const email = qs('#booking-email', bookingForm);
-      const grade = qs('#booking-grade', bookingForm);
-      const date = qs('#booking-date', bookingForm);
-      const time = qs('#booking-time', bookingForm);
+/* Forms */
+.form-row{display:flex;flex-direction:column;margin-bottom:0.75rem}
+.form-row label{font-size:0.95rem;margin-bottom:0.35rem}
+.form-row input[type="text"], .form-row input[type="email"], .form-row input[type="date"], .form-row input[type="time"], .form-row select, .form-row textarea{
+  padding:0.6rem;border-radius:8px;border:1px solid #e6efe8;background:#fff;font-size:0.95rem
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus{outline:none;box-shadow:var(--focus)}
+.field-error{color:#b82f2f;font-size:0.9rem;min-height:1.2rem}
+.form-actions{display:flex;gap:0.75rem;align-items:center}
+.form-status{color:var(--brand-green);font-weight:600}
 
-      let ok = true;
-      if(!name.value.trim()){ showFieldError(name, 'Please enter your full name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; }
-      else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
-      if(!grade.value){ showFieldError(grade, 'Please select a grade'); ok=false; }
-      if(!date.value){ showFieldError(date, 'Please select a preferred date'); ok=false; }
-      if(!time.value){ showFieldError(time, 'Please select a preferred time'); ok=false; }
+/* FAQ */
+.faq-list{display:grid;gap:0.75rem;margin-top:1rem}
+.faq-question{width:100%;text-align:left;padding:0.9rem;border:0;background:transparent;font-weight:600;cursor:pointer;border-radius:8px}
+.faq-question[aria-expanded="true"]{background:linear-gradient(90deg, rgba(15,107,58,0.06), rgba(15,107,58,0.03))}
+.faq-answer{padding:0.8rem 0 0.2rem;color:var(--muted)}
 
-      if(!ok){
-        if(status) status.textContent = 'Please correct the errors above.';
-        return;
-      }
+/* Footer */
+.site-footer{border-top:1px solid #eef6ee;background:#fff;padding:1.25rem 0;margin-top:2rem}
+.footer-inner{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}
+.footer-nav ul{list-style:none;padding:0;margin:0;display:flex;gap:0.9rem}
+.footer-nav a{color:var(--muted);text-decoration:none;font-size:0.95rem}
 
-      // Show friendly success message but do not claim a confirmed booking.
-      if(status) status.textContent = 'Booking request submitted. We will review your request and contact you to confirm availability.';
-      bookingForm.reset();
-    });
-  }
+/* Reveal (initial state) */
+.reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+.reveal.in-view{opacity:1;transform:none}
 
-  /* Tutor application form */
-  const tutorForm = qs(CONFIG.selectors.tutorForm);
-  if(tutorForm){
-    const status = qs('#tutor-form-status');
-    tutorForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearFieldErrors(tutorForm);
+/* Responsive */
+@media (min-width:900px){
+  .hero-inner{grid-template-columns:1fr 420px}
+  .hero-visual{margin-top:0}
+}
 
-      const name = qs('#tutor-name', tutorForm);
-      const email = qs('#tutor-email', tutorForm);
-      const education = qs('#tutor-education', tutorForm);
-      const why = qs('#tutor-why', tutorForm);
+@media (max-width:1024px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .tutoring-inner{grid-template-columns:1fr 320px}
+}
 
-      let ok = true;
-      if(!name.value.trim()){ showFieldError(name, 'Please enter your full name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; }
-      else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
-      if(!education.value.trim()){ showFieldError(education, 'Please provide your education or grade level'); ok=false; }
-      if(!why.value.trim()){ showFieldError(why, 'Please tell us why you want to tutor'); ok=false; }
+@media (max-width:780px){
+  .container{padding:1rem}
+  .header-inner{gap:0.5rem}
+  .nav-list{flex-direction:column;gap:0}
+  .nav{position:fixed;inset:68px 0 0 0;background:#ffffff;padding:1rem;transform:translateY(-120%);transition:transform .25s;box-shadow:0 10px 30px rgba(11,11,11,0.06);z-index:55}
+  .nav.open{transform:translateY(0)}
+  .nav-toggle{display:block}
+  .hero-inner{grid-template-columns:1fr;gap:1rem}
+  .hero-visual{order: -1}
+  .cards{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .tutoring-inner{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column;gap:1rem}
+}
 
-      if(!ok){
-        if(status) status.textContent = 'Please correct the errors above.';
-        return;
-      }
+/* Focus visible */
+:focus{outline: none}
+a:focus, button:focus, input:focus, select:focus, textarea:focus{box-shadow:var(--focus);border-color:var(--brand-green)}
 
-      if(status) status.textContent = 'Application submitted locally. We will review and contact you if there is a role match.';
-      tutorForm.reset();
-    });
-  }
-
-  /* Contact form */
-  const contactForm = qs(CONFIG.selectors.contactForm);
-  if(contactForm){
-    const status = qs('#contact-form-status');
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearFieldErrors(contactForm);
-
-      const name = qs('#contact-name', contactForm);
-      const email = qs('#contact-email', contactForm);
-      const who = qs('#contact-who', contactForm);
-      const msg = qs('#contact-message', contactForm);
-
-      let ok = true;
-      if(!name.value.trim()){ showFieldError(name, 'Please enter your name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; }
-      else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
-      if(!who.value){ showFieldError(who, 'Please select an option'); ok=false; }
-      if(!msg.value.trim()){ showFieldError(msg, 'Please enter a message'); ok=false; }
-
-      if(!ok){
-        if(status) status.textContent = 'Please correct the errors above.';
-        return;
-      }
-
-      if(status) status.textContent = 'Message submitted locally. We will reply if necessary. This is not an automatic email response.';
-      contactForm.reset();
-    });
-  }
-})();
-
-/* ========= FAQ accordion ========= */
-(function FAQ(){
-  const questions = qsa(CONFIG.selectors.faqQuestions);
-  const items = qsa(CONFIG.selectors.faqItems);
-  if(questions.length === 0) return;
-
-  questions.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      // Close all
-      questions.forEach(b => {
-        b.setAttribute('aria-expanded','false');
-        const cid = b.getAttribute('aria-controls');
-        const region = cid ? qs(`#${cid}`) : null;
-        if(region) region.hidden = true;
-      });
-
-      if(!expanded){
-        // Open clicked
-        btn.setAttribute('aria-expanded','true');
-        const cid = btn.getAttribute('aria-controls');
-        const region = cid ? qs(`#${cid}`) : null;
-        if(region) region.hidden = false;
-        // move focus to region for assistive tech optionally
-        region && region.setAttribute('tabindex','0');
-      }
-    });
-  });
-})();
-
-/* ========= Scroll reveal (IntersectionObserver) ========= */
-(function Reveal(){
-  const revealEls = qsa(CONFIG.selectors.reveal);
-  if(revealEls.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        // Optionally unobserve to avoid repeat animations
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {threshold: 0.12});
-
-  revealEls.forEach(el => observer.observe(el));
-})();
-
-/* ========= Accessibility helpers ========= */
-(function Accessibility(){
-  // Add visible year in footer
-  const yearEl = qs('#copyright-year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
-
-  // Ensure focusable cards for keyboard users
-  qsa('.card[tabindex]').forEach(c => {
-    c.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' ') c.click && c.click();
-    });
-  });
-
-  // Respect reduced motion already handled in CSS.
-})();
-
-/* ========= Safety: ensure selectors exist before use (sanity log) ========= */
-(function Sanity(){
-  // Check for elements referenced in navigation anchors
-  qsa('a[data-nav]').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    if(href.startsWith('#')){
-      const target = document.querySelector(href);
-      if(!target){
-        console.warn(`Navigation link points to missing target: ${href}`);
-      }
-    }
-  });
-})();
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .btn-primary, .card, .hamburger .line, .hero-slide{transition:none}
+}
