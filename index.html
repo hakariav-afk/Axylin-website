@@ -1,334 +1,1485 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Axilyn | Accessible Math Tutoring for Grades 6–8</title>
-  <meta name="description" content="Axilyn provides supportive and accessible math tutoring for middle school students in grades 6–8, focused on understanding, strong foundations, and growth." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="brand" href="#home" aria-label="Axilyn Home">
-        <svg class="brand-mark" width="40" height="40" viewBox="0 0 48 48" aria-hidden="true">
-          <rect x="2" y="2" width="44" height="44" rx="6" fill="#0f6b3a"/>
-          <path d="M12 34 L18 18 L26 30 L36 12" stroke="#e8f7ec" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
-        <span class="brand-name">Axilyn</span>
-      </a>
+/* =========================================================
+   AXILYN — MAIN STYLESHEET
+   ========================================================= */
 
-      <nav class="main-nav" id="main-nav" aria-label="Primary">
-        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Open navigation">
-          <span class="hamburger" aria-hidden="true"></span>
-        </button>
+/* ---------- BRAND VARIABLES ---------- */
 
-        <ul id="nav-list" class="nav-list">
-          <li><a href="#home" class="nav-link">Home</a></li>
-          <li><a href="#why" class="nav-link">Why Axilyn</a></li>
-          <li><a href="#tutoring" class="nav-link">Tutoring</a></li>
-          <li><a href="#become-tutor" class="nav-link">Become a Tutor</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+:root {
+  --brand: #0f6b3a;
+  --brand-dark: #0a4f2b;
+  --brand-light: #eaf6ef;
+  --brand-lighter: #f4faf6;
+  --accent: #8fc9a8;
 
-  <main>
-    <!-- HOME / HERO -->
-    <section id="home" class="hero-section" role="region" aria-labelledby="hero-heading">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 id="hero-heading">Math Makes More Sense When You Understand Why.</h1>
-          <p class="lead">
-            Axilyn provides accessible, supportive math tutoring designed to help middle school students build strong foundations and better understand the concepts behind their work.
-          </p>
-          <div class="hero-ctas">
-            <a class="btn primary" href="#tutoring">Explore Tutoring</a>
-            <a class="btn ghost" href="#why">Why Axilyn</a>
-          </div>
+  --text: #101817;
+  --text-soft: #3f4b46;
+  --muted: #68736e;
 
-          <ul class="home-features" aria-hidden="true">
-            <li class="pill">Grades 6–8</li>
-            <li class="pill">Personalized support</li>
-            <li class="pill">Affordable sessions</li>
-          </ul>
-        </div>
+  --white: #ffffff;
+  --background: #f8fbf9;
+  --background-soft: #eef7f1;
+  --border: #dfeae3;
 
-        <div class="hero-visual" aria-hidden="false">
-          <!-- subtle math-themed SVG / grid -->
-          <svg viewBox="0 0 400 300" class="math-visual" role="img" aria-label="Mathematical grid and shapes">
-            <defs>
-              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e6f1ea" stroke-width="0.6"/>
-              </pattern>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stop-color="#0f6b3a" stop-opacity="0.14"/>
-                <stop offset="1" stop-color="#0f6b3a" stop-opacity="0.04"/>
-              </linearGradient>
-            </defs>
-            <rect x="0" y="0" width="400" height="300" fill="url(#grid)"></rect>
-            <ellipse cx="260" cy="80" rx="80" ry="40" fill="url(#g)"></ellipse>
-            <path d="M60 220 q 40 -80 120 -40" stroke="#0f6b3a" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <g fill="#0f6b3a" fill-opacity="0.9" font-family="Inter, sans-serif" font-weight="600">
-              <text x="36" y="170" font-size="28">y = mx + b</text>
-              <text x="36" y="200" font-size="18">x² + 2x + 1 = 0</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-    </section>
+  --shadow-sm: 0 4px 14px rgba(15, 107, 58, 0.07);
+  --shadow-md: 0 10px 30px rgba(15, 107, 58, 0.10);
+  --shadow-lg: 0 18px 50px rgba(15, 107, 58, 0.14);
 
-    <!-- WHAT WE OFFER -->
-    <section id="offers" class="section container" aria-labelledby="offers-heading">
-      <h2 id="offers-heading" class="section-title">What We Offer</h2>
-      <p class="section-sub">Supporting students with focused, concept-first tutoring.</p>
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
 
-      <div class="cards">
-        <article class="card reveal">
-          <h3>Personalized Learning</h3>
-          <p>Tutoring adapts to each student's needs, focusing on current topics they're learning or struggling with.</p>
-        </article>
+  --page-max: 1150px;
+}
 
-        <article class="card reveal">
-          <h3>Strong Foundations</h3>
-          <p>Build a deeper understanding of core concepts students can use as they progress.</p>
-        </article>
 
-        <article class="card reveal">
-          <h3>Flexible & Convenient</h3>
-          <p>Scheduling information is straightforward, and sessions can work with school timetables.</p>
-        </article>
+/* ---------- RESET ---------- */
 
-        <article class="card reveal">
-          <h3>Affordable Pricing</h3>
-          <p>Straightforward pricing designed to make additional math support more accessible to families.</p>
-        </article>
-      </div>
-    </section>
+* {
+  box-sizing: border-box;
+}
 
-    <!-- WHY AXILYN -->
-    <section id="why" class="section alt" aria-labelledby="why-heading">
-      <div class="container">
-        <h2 id="why-heading" class="section-title">Why Axilyn</h2>
-        <p class="section-sub">Understanding over memorization — learning the why, not just the how.</p>
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
 
-        <div class="three-points">
-          <div class="point reveal">
-            <h3>Learn</h3>
-            <p>Understand the concept so students can apply knowledge in new situations.</p>
-          </div>
+body {
+  margin: 0;
+  min-height: 100vh;
 
-          <div class="point reveal">
-            <h3>Practice</h3>
-            <p>Work through problems with guidance to solidify understanding and skills.</p>
-          </div>
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
 
-          <div class="point reveal">
-            <h3>Grow</h3>
-            <p>Develop stronger skills and confidence over time through supportive tutoring.</p>
-          </div>
-        </div>
+  color: var(--text);
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      var(--background) 45%,
+      #ffffff 100%
+    );
 
-        <div class="goal reveal">
-          <h4>Our goal</h4>
-          <p>Help students develop stronger mathematical understanding while creating a supportive learning experience where they can continue to grow.</p>
-        </div>
-      </div>
-    </section>
+  line-height: 1.6;
+  font-size: 16px;
 
-    <!-- TUTORING -->
-    <section id="tutoring" class="section container" aria-labelledby="tutoring-heading">
-      <h2 id="tutoring-heading" class="section-title">Tutoring</h2>
-      <p class="section-sub">Personalized support for middle school math students.</p>
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-      <div class="two-col">
-        <div class="content reveal">
-          <h3>We offer:</h3>
-          <ul class="checklist">
-            <li>Personalized Support — focus on the student's current needs</li>
-            <li>Homework Support — work through schoolwork while emphasizing understanding</li>
-            <li>Concept Review — revisit and clarify difficult topics</li>
-            <li>Practice — guided problems to build confidence</li>
-          </ul>
+img,
+svg {
+  max-width: 100%;
+}
 
-          <p><strong>Grades</strong>: 6–8</p>
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
 
-          <div class="pricing">
-            <h4>Pricing</h4>
-            <p class="price-note">Session length: 45 minutes</p>
-            <p class="price large"><span class="price-amount" data-price-id="session-price"></span> <span class="price-unit">/ 45-minute session</span></p>
-            <p class="muted">Availability and scheduling are subject to confirmation.</p>
-            <a class="btn primary" href="#booking">Book a Session</a>
-          </div>
-        </div>
+a {
+  color: inherit;
+}
 
-        <aside class="booking-card reveal" id="booking" aria-labelledby="booking-heading">
-          <h3 id="booking-heading">Request a Booking</h3>
-          <form id="booking-form" class="form">
-            <label for="book-name">Your name</label>
-            <input id="book-name" name="name" type="text" required>
+::selection {
+  background: var(--brand);
+  color: white;
+}
 
-            <label for="book-email">Your email</label>
-            <input id="book-email" name="email" type="email" required>
 
-            <label for="book-grade">Student grade</label>
-            <select id="book-grade" name="grade" required>
-              <option value="">Select grade</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-            </select>
+/* ---------- CONTAINER ---------- */
 
-            <label for="book-date">Preferred date</label>
-            <input id="book-date" name="date" type="date" required>
+.container {
+  width: min(
+    calc(100% - 2.5rem),
+    var(--page-max)
+  );
 
-            <label for="book-time">Preferred time</label>
-            <input id="book-time" name="time" type="time" required>
+  margin: 0 auto;
+}
 
-            <label for="book-msg">Short message (optional)</label>
-            <textarea id="book-msg" name="message" rows="3"></textarea>
 
-            <p class="muted small">Submitting a request does not automatically guarantee a scheduled appointment. We will confirm availability by email.</p>
+/* =========================================================
+   HEADER
+   ========================================================= */
 
-            <button class="btn primary" type="submit">Submit Booking Request</button>
-            <div id="booking-feedback" class="form-feedback" aria-live="polite"></div>
-          </form>
-        </aside>
-      </div>
-    </section>
+.site-header {
+  position: sticky;
+  top: 0;
 
-    <!-- BECOME A TUTOR -->
-    <section id="become-tutor" class="section alt" aria-labelledby="become-heading">
-      <div class="container">
-        <h2 id="become-heading" class="section-title">Become an Axilyn Tutor</h2>
-        <p class="section-sub">We're looking for patient, clear, and knowledgeable math tutors who enjoy helping middle school students learn.</p>
+  z-index: 100;
 
-        <div class="two-col">
-          <div class="content reveal">
-            <h3>What We Look For</h3>
-            <ul class="checklist">
-              <li>Strong understanding of mathematics</li>
-              <li>Ability to explain concepts clearly</li>
-              <li>Patience and reliability</li>
-              <li>Supportive attitude and focus on student learning</li>
-            </ul>
-          </div>
+  background: rgba(255, 255, 255, 0.94);
 
-          <div class="application-card reveal">
-            <h3>Tutor Application</h3>
-            <form id="tutor-form" class="form">
-              <label for="tutor-name">Full name</label>
-              <input id="tutor-name" name="name" type="text" required>
+  border-bottom: 1px solid rgba(15, 107, 58, 0.10);
 
-              <label for="tutor-email">Email</label>
-              <input id="tutor-email" name="email" type="email" required>
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
 
-              <label for="tutor-education">Grade level / Education</label>
-              <input id="tutor-education" name="education" type="text">
+.header-inner {
+  min-height: 72px;
 
-              <label for="tutor-subjects">Math subjects comfortable teaching</label>
-              <input id="tutor-subjects" name="subjects" type="text" placeholder="e.g., Pre-Algebra, basic Geometry">
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-              <label for="tutor-reason">Why would you like to tutor with Axilyn?</label>
-              <textarea id="tutor-reason" name="reason" rows="3" required></textarea>
+  gap: 2rem;
+}
 
-              <label for="tutor-experience">Relevant experience</label>
-              <textarea id="tutor-experience" name="experience" rows="3"></textarea>
 
-              <button class="btn primary" type="submit">Submit Application</button>
-              <div id="tutor-feedback" class="form-feedback" aria-live="polite"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+/* ---------- BRAND ---------- */
 
-    <!-- FAQ (small) -->
-    <section id="faq" class="section container" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" class="section-title">FAQ</h2>
-      <div class="faq-list reveal">
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">Do you guarantee grade improvements?</button>
-          <div class="faq-answer" hidden>
-            <p>We focus on supporting understanding; we cannot guarantee specific grade outcomes. Improvements depend on multiple factors including student effort and consistency.</p>
-          </div>
-        </div>
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
 
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">Can tutors help with homework?</button>
-          <div class="faq-answer" hidden>
-            <p>Yes — tutors can help students work through homework while emphasizing the underlying concepts and problem-solving strategies.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+  color: var(--brand-dark);
 
-    <!-- CONTACT -->
-    <section id="contact" class="section alt" aria-labelledby="contact-heading">
-      <div class="container">
-        <h2 id="contact-heading" class="section-title">Contact</h2>
-        <p class="section-sub">Questions from parents, students, or tutors — reach out and we'll respond promptly.</p>
+  text-decoration: none;
 
-        <div class="contact-grid reveal">
-          <form id="contact-form" class="form">
-            <label for="contact-name">Name</label>
-            <input id="contact-name" name="name" type="text" required>
+  font-weight: 700;
+}
 
-            <label for="contact-email">Email</label>
-            <input id="contact-email" name="email" type="email" required>
+.brand-mark {
+  width: 40px;
+  height: 40px;
 
-            <label for="contact-who">Who are you?</label>
-            <select id="contact-who" name="who" required>
-              <option value="">Please select</option>
-              <option>Parent</option>
-              <option>Student</option>
-              <option>Tutor</option>
-              <option>Other</option>
-            </select>
+  border-radius: 10px;
 
-            <label for="contact-message">Message</label>
-            <textarea id="contact-message" name="message" rows="5" required></textarea>
+  flex-shrink: 0;
+}
 
-            <button class="btn primary" type="submit">Send Message</button>
-            <div id="contact-feedback" class="form-feedback" aria-live="polite"></div>
-          </form>
+.brand-name {
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
 
-          <aside class="contact-info" aria-hidden="true">
-            <h3>How we work</h3>
-            <p class="muted">We respond to messages within a few business days. For booking requests, please use the booking form so we can check tutor availability.</p>
 
-            <h4>Accessibility & pricing</h4>
-            <p class="muted">We aim to keep tutoring affordable and accessible. See the tutoring section for current pricing.</p>
-          </aside>
-        </div>
-      </div>
-    </section>
+/* ---------- NAVIGATION ---------- */
 
-    <!-- FINAL CTA -->
-    <section class="final-cta" aria-labelledby="final-heading">
-      <div class="container final-cta-inner reveal">
-        <h2 id="final-heading">Ready to Make Math Make More Sense?</h2>
-        <a class="btn primary large" href="#tutoring">Explore Tutoring</a>
-      </div>
-    </section>
-  </main>
+.main-nav {
+  display: flex;
+  align-items: center;
+}
 
-  <footer class="site-footer" role="contentinfo">
-    <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> Axilyn. All rights reserved.</p>
-      <nav aria-label="Footer">
-        <ul class="footer-links">
-          <li><a href="#why">Our mission</a></li>
-          <li><a href="#tutoring">Tutoring</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </footer>
+.nav-list {
+  display: flex;
+  align-items: center;
 
-  <script src="script.js" defer></script>
-</body>
-</html>
+  gap: 0.35rem;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list a {
+  display: block;
+
+  padding: 0.55rem 0.8rem;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  color: var(--text-soft);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-list a:hover {
+  background: var(--brand-light);
+  color: var(--brand-dark);
+}
+
+.nav-list a:focus-visible {
+  outline: 3px solid rgba(15, 107, 58, 0.22);
+  outline-offset: 2px;
+}
+
+.nav-link.active {
+  background: var(--brand);
+  color: white;
+}
+
+.nav-link.active:hover {
+  background: var(--brand-dark);
+  color: white;
+}
+
+
+/* ---------- MOBILE MENU BUTTON ---------- */
+
+.nav-toggle {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: var(--brand-light);
+
+  cursor: pointer;
+}
+
+.nav-toggle:hover {
+  background: #dcefe3;
+}
+
+.nav-toggle:focus-visible {
+  outline: 3px solid rgba(15, 107, 58, 0.25);
+  outline-offset: 2px;
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  display: block;
+
+  width: 22px;
+  height: 2px;
+
+  background: var(--brand-dark);
+
+  border-radius: 10px;
+}
+
+.hamburger {
+  position: relative;
+  margin: auto;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+}
+
+.hamburger::before {
+  top: -7px;
+}
+
+.hamburger::after {
+  top: 7px;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero-section {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 6rem 0 5rem;
+
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(143, 201, 168, 0.20),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff,
+      var(--brand-lighter)
+    );
+}
+
+.hero-section::before {
+  content: "";
+
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  border-radius: 50%;
+
+  background: rgba(15, 107, 58, 0.035);
+
+  top: -160px;
+  left: -120px;
+}
+
+.hero-grid {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.1fr)
+    minmax(320px, 0.9fr);
+
+  align-items: center;
+
+  gap: 4rem;
+}
+
+
+/* ---------- HERO TEXT ---------- */
+
+.hero-copy {
+  max-width: 650px;
+}
+
+.hero-copy h1 {
+  margin: 0 0 1.25rem;
+
+  color: var(--text);
+
+  font-size: clamp(
+    2.5rem,
+    5vw,
+    4.3rem
+  );
+
+  line-height: 1.04;
+
+  letter-spacing: -0.045em;
+}
+
+.hero-copy h1 span {
+  color: var(--brand);
+}
+
+.lead {
+  max-width: 600px;
+
+  margin: 0 0 1.75rem;
+
+  color: var(--text-soft);
+
+  font-size: 1.12rem;
+  line-height: 1.75;
+}
+
+
+/* ---------- HERO BUTTONS ---------- */
+
+.hero-ctas {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.8rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.5rem;
+
+  min-height: 46px;
+
+  padding: 0.7rem 1.1rem;
+
+  border-radius: 10px;
+
+  border: 1px solid transparent;
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn.primary {
+  background: var(--brand);
+  color: white;
+
+  box-shadow:
+    0 6px 18px rgba(15, 107, 58, 0.18);
+}
+
+.btn.primary:hover {
+  background: var(--brand-dark);
+
+  box-shadow:
+    0 9px 24px rgba(15, 107, 58, 0.24);
+}
+
+.btn.ghost {
+  background: white;
+
+  color: var(--brand);
+
+  border-color: var(--border);
+}
+
+.btn.ghost:hover {
+  background: var(--brand-light);
+
+  border-color: #cfe4d6;
+}
+
+.btn.large {
+  min-height: 52px;
+
+  padding:
+    0.85rem
+    1.3rem;
+
+  font-size: 1rem;
+}
+
+
+/* ---------- HERO PILLS ---------- */
+
+.home-features {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.6rem;
+
+  margin: 0;
+
+  padding: 0;
+
+  list-style: none;
+}
+
+.pill {
+  padding:
+    0.4rem
+    0.75rem;
+
+  border-radius: 999px;
+
+  background: white;
+
+  border: 1px solid #dcebe1;
+
+  color: var(--brand-dark);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* ---------- HERO VISUAL ---------- */
+
+.hero-visual {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.math-visual {
+  width: 100%;
+  max-width: 470px;
+
+  border-radius: var(--radius-lg);
+
+  background: white;
+
+  border: 1px solid rgba(15, 107, 58, 0.10);
+
+  box-shadow: var(--shadow-lg);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section {
+  padding: 5rem 0;
+}
+
+.section.alt {
+  background:
+    linear-gradient(
+      180deg,
+      var(--brand-lighter),
+      #ffffff
+    );
+}
+
+.section-title {
+  margin: 0 0 0.5rem;
+
+  color: var(--text);
+
+  font-size: clamp(
+    1.8rem,
+    3vw,
+    2.5rem
+  );
+
+  line-height: 1.15;
+
+  letter-spacing: -0.03em;
+}
+
+.section-title::after {
+  content: "";
+
+  display: block;
+
+  width: 42px;
+  height: 4px;
+
+  margin-top: 0.75rem;
+
+  border-radius: 999px;
+
+  background: var(--brand);
+}
+
+.section-sub {
+  max-width: 700px;
+
+  margin: 0 0 2rem;
+
+  color: var(--muted);
+
+  font-size: 1.02rem;
+}
+
+
+/* =========================================================
+   OFFER CARDS
+   ========================================================= */
+
+.cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 1rem;
+
+  margin-top: 2rem;
+}
+
+.card {
+  position: relative;
+
+  padding: 1.6rem;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card::before {
+  content: "";
+
+  display: block;
+
+  width: 36px;
+  height: 4px;
+
+  margin-bottom: 1.2rem;
+
+  border-radius: 999px;
+
+  background: var(--brand);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+
+  border-color: #cfe4d6;
+
+  box-shadow: var(--shadow-md);
+}
+
+.card h3 {
+  margin: 0 0 0.6rem;
+
+  font-size: 1.1rem;
+
+  color: var(--text);
+}
+
+.card p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   WHY AXILYN
+   ========================================================= */
+
+.three-points {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 1rem;
+
+  margin-top: 2rem;
+}
+
+.point {
+  padding: 1.6rem;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.point h3 {
+  margin: 0 0 0.6rem;
+
+  color: var(--brand);
+
+  font-size: 1.25rem;
+}
+
+.point p {
+  margin: 0;
+
+  color: var(--muted);
+}
+
+
+/* ---------- GOAL ---------- */
+
+.goal {
+  margin-top: 1.5rem;
+
+  padding: 1.5rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--brand),
+      var(--brand-dark)
+    );
+
+  border-radius: var(--radius-md);
+
+  color: white;
+
+  box-shadow: var(--shadow-md);
+}
+
+.goal h4 {
+  margin: 0 0 0.4rem;
+
+  font-size: 1.1rem;
+}
+
+.goal p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.88);
+}
+
+
+/* =========================================================
+   TUTORING / TWO COLUMN
+   ========================================================= */
+
+.two-col {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.5fr)
+    minmax(320px, 0.8fr);
+
+  gap: 2rem;
+
+  align-items: start;
+}
+
+.content {
+  min-width: 0;
+}
+
+.content h3 {
+  margin-top: 0;
+
+  font-size: 1.4rem;
+}
+
+
+/* =========================================================
+   CHECKLIST
+   ========================================================= */
+
+.checklist {
+  list-style: none;
+
+  margin: 0 0 1.5rem;
+
+  padding: 0;
+}
+
+.checklist li {
+  position: relative;
+
+  padding:
+    0.75rem
+    0
+    0.75rem
+    2rem;
+
+  color: var(--text-soft);
+
+  border-bottom: 1px solid #edf3ef;
+}
+
+.checklist li::before {
+  content: "✓";
+
+  position: absolute;
+
+  left: 0;
+  top: 0.72rem;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--brand-light);
+
+  color: var(--brand);
+
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   PRICING
+   ========================================================= */
+
+.pricing {
+  margin-top: 2rem;
+
+  padding: 1.5rem;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.pricing h4 {
+  margin: 0 0 0.25rem;
+
+  color: var(--brand);
+
+  font-size: 1.15rem;
+}
+
+.price-note {
+  margin: 0 0 0.3rem;
+
+  color: var(--muted);
+}
+
+.price {
+  margin: 0 0 0.5rem;
+}
+
+.price.large {
+  font-size: 1.8rem;
+
+  font-weight: 800;
+
+  color: var(--text);
+}
+
+.price-amount {
+  color: var(--brand);
+}
+
+.price-unit {
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   CARDS / FORMS
+   ========================================================= */
+
+.booking-card,
+.application-card,
+.contact-info {
+  background: white;
+
+  padding: 1.7rem;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-md);
+}
+
+.booking-card h3,
+.application-card h3,
+.contact-info h3 {
+  margin-top: 0;
+
+  color: var(--text);
+}
+
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+.form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.55rem;
+}
+
+.form label {
+  margin-top: 0.35rem;
+
+  color: var(--text-soft);
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+
+  padding:
+    0.72rem
+    0.8rem;
+
+  background: #fbfdfc;
+
+  border: 1px solid #dce7e0;
+
+  border-radius: 9px;
+
+  color: var(--text);
+
+  font-size: 1rem;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form textarea {
+  resize: vertical;
+
+  min-height: 100px;
+}
+
+.form input:hover,
+.form select:hover,
+.form textarea:hover {
+  border-color: #bdd6c6;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+
+  background: white;
+
+  border-color: var(--brand);
+
+  box-shadow:
+    0 0 0 4px rgba(15, 107, 58, 0.10);
+}
+
+.form button {
+  margin-top: 0.75rem;
+}
+
+.form-feedback {
+  min-height: 1.5rem;
+
+  margin-top: 0.4rem;
+
+  color: var(--brand-dark);
+
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.faq-list {
+  display: grid;
+
+  gap: 0.75rem;
+
+  max-width: 800px;
+}
+
+.faq-item {
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-question {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 1.1rem;
+
+  border: 0;
+
+  background: white;
+
+  color: var(--text);
+
+  text-align: left;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.faq-question:hover {
+  background: var(--brand-lighter);
+
+  color: var(--brand-dark);
+}
+
+.faq-question::after {
+  content: "+";
+
+  color: var(--brand);
+
+  font-size: 1.3rem;
+
+  transition: transform 0.2s ease;
+}
+
+.faq-question[aria-expanded="true"]::after {
+  content: "−";
+}
+
+.faq-answer {
+  padding: 0 1.1rem 1rem;
+
+  border-left: 4px solid var(--brand);
+
+  background: var(--brand-lighter);
+}
+
+.faq-answer p {
+  margin: 0;
+
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+
+.contact-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(280px, 0.65fr);
+
+  gap: 2rem;
+
+  align-items: start;
+}
+
+.contact-info {
+  height: fit-content;
+}
+
+.contact-info h4 {
+  margin-bottom: 0.3rem;
+
+  color: var(--brand);
+}
+
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+
+.final-cta {
+  padding: 5rem 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--brand),
+      var(--brand-dark)
+    );
+
+  color: white;
+}
+
+.final-cta-inner {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 2rem;
+}
+
+.final-cta h2 {
+  margin: 0;
+
+  max-width: 650px;
+
+  font-size: clamp(
+    1.8rem,
+    4vw,
+    2.7rem
+  );
+
+  line-height: 1.15;
+
+  letter-spacing: -0.03em;
+}
+
+.final-cta .btn.primary {
+  flex-shrink: 0;
+
+  background: white;
+
+  color: var(--brand);
+
+  box-shadow: none;
+}
+
+.final-cta .btn.primary:hover {
+  background: var(--brand-light);
+
+  color: var(--brand-dark);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.site-footer {
+  padding: 2rem 0;
+
+  background: #073d22;
+
+  color: white;
+}
+
+.footer-inner {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+}
+
+.footer-links {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 1rem;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.78);
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+
+/* =========================================================
+   REVEAL ANIMATIONS
+   ========================================================= */
+
+.js .reveal {
+  opacity: 0;
+
+  transform: translateY(20px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.js .reveal.visible {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(15, 107, 58, 0.25);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .hero-grid {
+    grid-template-columns: 1fr 320px;
+
+    gap: 2rem;
+  }
+
+  .cards {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-card,
+  .application-card {
+    order: 2;
+  }
+
+  .three-points {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .container {
+    width: min(
+      calc(100% - 1.5rem),
+      var(--page-max)
+    );
+  }
+
+  .header-inner {
+    min-height: 64px;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-list {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+
+    width: min(
+      260px,
+      calc(100vw - 2rem)
+    );
+
+    display: none;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0.25rem;
+
+    padding: 0.75rem;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-list.show {
+    display: flex;
+  }
+
+  .main-nav {
+    position: relative;
+  }
+
+  .nav-list a {
+    width: 100%;
+
+    padding: 0.75rem;
+
+    border-radius: 8px;
+  }
+
+  .brand-name {
+    display: block;
+  }
+
+  .hero-section {
+    padding: 4rem 0 3.5rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+
+    gap: 2rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(
+      2.35rem,
+      11vw,
+      3.4rem
+    );
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .hero-visual {
+    order: 2;
+  }
+
+  .math-visual {
+    max-width: 100%;
+  }
+
+  .section {
+    padding: 3.75rem 0;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .three-points {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .final-cta {
+    padding: 3.5rem 0;
+  }
+
+  .final-cta-inner {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .final-cta .btn {
+    width: 100%;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+  .hero-ctas {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .hero-ctas .btn {
+    width: 100%;
+  }
+
+  .home-features {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .pill {
+    width: fit-content;
+  }
+
+  .booking-card,
+  .application-card,
+  .contact-info {
+    padding: 1.2rem;
+  }
+
+  .pricing {
+    padding: 1.2rem;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+
+    transform: none;
+  }
+}
