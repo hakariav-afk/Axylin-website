@@ -10,9 +10,9 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header" id="home">
+  <header class="site-header" id="home" role="banner">
     <div class="container header-inner">
-      <div class="brand">
+      <div class="brand" aria-hidden="false">
         <svg class="brand-mark" width="44" height="44" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
           <rect width="64" height="64" rx="10" fill="#0f6b3a"></rect>
           <g fill="#fff" font-family="sans-serif" font-weight="700" font-size="28" transform="translate(8,8)">
@@ -45,16 +45,17 @@
     </div>
   </header>
 
-  <main id="main" class="main">
-    <!-- Hero slider (5 slides mapped to main sections) -->
+  <main id="main" class="main" role="main">
+    <!-- HERO SLIDER -->
     <section class="hero section reveal" aria-labelledby="hero-heading">
       <div class="container hero-inner">
         <div id="hero-slider" class="hero-slider" role="region" aria-roledescription="carousel" aria-label="Axilyn highlights">
-          <!-- Slide 0: Home -->
-          <div class="hero-slide" data-slide="0" aria-hidden="false">
+
+          <!-- Slide 0: Home (uses background image for consistent cropping) -->
+          <div class="hero-slide" data-slide="0" aria-hidden="false" style="background-image:url('images/hero-wood.jpg')">
             <div class="hero-copy">
-              <h2 id="hero-heading" class="hero-title">Personalized math support for confident learning</h2>
-              <p class="hero-lead">Focused, friendly tutoring for grades 6–8 — build strong foundations, gain confidence, and enjoy learning again.</p>
+              <h2 id="hero-heading" class="hero-title">Math Made Clear.</h2>
+              <p class="hero-lead">Focused, friendly tutoring for grades 6–8 — build strong foundations and lasting confidence.</p>
               <div class="hero-ctas">
                 <a class="btn btn-primary" href="#tutoring" data-nav data-slide-to="2">Book a Session</a>
                 <a class="btn btn-secondary" href="#why" data-nav data-slide-to="1">Why Axilyn</a>
@@ -62,7 +63,8 @@
             </div>
 
             <div class="hero-visual" aria-hidden="true">
-              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" class="math-svg" role="img" aria-hidden="true">
+              <!-- Decorative inline SVG left as fallback & visual accent -->
+              <svg class="math-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                 <defs>
                   <linearGradient id="g1" x1="0" x2="1">
                     <stop offset="0" stop-color="#eaf6ee"/>
@@ -72,14 +74,6 @@
                 <rect x="0" y="0" width="400" height="300" rx="16" fill="url(#g1)"/>
                 <g transform="translate(20,20)" fill="#0f6b3a" opacity="0.9" >
                   <text x="0" y="40" font-size="36" font-weight="600">x + y = ?</text>
-                  <g transform="translate(0,80)">
-                    <circle cx="40" cy="40" r="34" fill="#fff" stroke="#d6f0df" stroke-width="4"></circle>
-                    <text x="28" y="52" font-size="28" fill="#0f6b3a" font-weight="700">+</text>
-                  </g>
-                  <g transform="translate(140,40)" opacity="0.9">
-                    <path d="M10 10 L60 10 L60 60 L10 60 Z" fill="#0f6b3a" opacity="0.08"></path>
-                    <text x="0" y="70" font-size="26" fill="#0f6b3a">45 min</text>
-                  </g>
                 </g>
               </svg>
             </div>
@@ -101,7 +95,7 @@
           <div class="hero-slide" data-slide="2" aria-hidden="true">
             <div class="hero-copy">
               <h2 class="hero-title">Tutoring services</h2>
-              <p class="hero-lead">One-on-one support for grades 6–8 — homework help, concept review, and steady progress.</p>
+              <p class="hero-lead">One-on-one support for grades 6–8 — homework help, concept review and steady progress.</p>
               <p class="muted">Session price: $<span class="session-price" data-price></span> / 45-minute session</p>
               <div class="hero-ctas">
                 <a class="btn btn-primary" href="#tutoring" data-nav data-slide-to="2">Book a Session</a>
@@ -126,7 +120,7 @@
           <div class="hero-slide" data-slide="4" aria-hidden="true">
             <div class="hero-copy">
               <h2 class="hero-title">Contact Axilyn</h2>
-              <p class="hero-lead">Questions? Send us a message and we'll get back to you. This is a message request and not a guaranteed reply.</p>
+              <p class="hero-lead">Questions? Send a message — this is a message request and not a guaranteed reply.</p>
               <div class="hero-ctas">
                 <a class="btn btn-primary" href="#contact" data-nav data-slide-to="4">Get in Touch</a>
                 <a class="btn btn-secondary" href="#tutoring" data-nav data-slide-to="2">Tutoring Details</a>
@@ -134,7 +128,6 @@
             </div>
           </div>
 
-          <!-- Slider dots -->
           <div class="slider-dots" role="tablist" aria-label="Hero slides">
             <button class="dot" data-go="0" aria-label="Home" aria-selected="true"></button>
             <button class="dot" data-go="1" aria-label="Why Axilyn" aria-selected="false"></button>
@@ -146,300 +139,36 @@
       </div>
     </section>
 
-    <!-- What we offer -->
+    <!-- WHAT WE OFFER -->
     <section id="offers" class="section offers reveal" aria-labelledby="offers-heading">
       <div class="container">
         <h3 id="offers-heading" class="section-title">What we offer</h3>
-        <p class="section-sub">Support designed for each student, with proven classroom-aligned approaches.</p>
+        <p class="section-sub">Support designed for each student, with classroom-aligned approaches.</p>
 
         <div class="cards">
           <article class="card reveal" tabindex="0" aria-labelledby="card1-title">
+            <!-- graduation cap icon -->
+            <svg class="feature-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#0f6b3a" stroke-width="3"><path d="M2 26 L32 6 L62 26 L32 46z"/><path d="M32 6 L32 34"/></g></svg>
             <h4 id="card1-title" class="card-title">Personalized Learning</h4>
-            <p class="card-body">Lessons tailored to each student's needs and learning pace.</p>
+            <p class="card-body">Lessons tailored to each student's needs, pace, and goals.</p>
           </article>
 
           <article class="card reveal" tabindex="0" aria-labelledby="card2-title">
+            <!-- chart icon -->
+            <svg class="feature-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#0f6b3a" stroke-width="3"><path d="M8 50 L8 30 L20 30 L20 18 L34 18 L34 10 L56 10"/><path d="M8 50 L56 50"/></g></svg>
             <h4 id="card2-title" class="card-title">Strong Foundations</h4>
             <p class="card-body">Focus on core skills so students can tackle new problems with confidence.</p>
           </article>
 
           <article class="card reveal" tabindex="0" aria-labelledby="card3-title">
+            <!-- screen/person icon -->
+            <svg class="feature-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#0f6b3a" stroke-width="3"><rect x="6" y="10" width="52" height="34" rx="3"/><circle cx="32" cy="28" r="6"/></g></svg>
             <h4 id="card3-title" class="card-title">Flexible & Convenient</h4>
             <p class="card-body">Online sessions scheduled around your family’s life.</p>
           </article>
 
           <article class="card reveal" tabindex="0" aria-labelledby="card4-title">
+            <!-- price tag icon -->
+            <svg class="feature-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="#0f6b3a" stroke-width="3"><path d="M6 34 L32 10 L58 34 L32 58z"/><circle cx="44" cy="22" r="2.5" /></g></svg>
             <h4 id="card4-title" class="card-title">Affordable Pricing</h4>
-            <p class="card-body">Simple pricing that keeps quality tutoring within reach.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Why Axilyn -->
-    <section id="why" class="section why reveal" aria-labelledby="why-heading">
-      <div class="container why-inner">
-        <h3 id="why-heading" class="section-title">Why Axilyn</h3>
-        <div class="why-grid">
-          <div class="why-item reveal" tabindex="0">
-            <h4>Learn</h4>
-            <p>Structured lessons focused on understanding, not memorization.</p>
-          </div>
-
-          <div class="why-item reveal" tabindex="0">
-            <h4>Practice</h4>
-            <p>Hands-on practice with guidance and timely feedback.</p>
-          </div>
-
-          <div class="why-item reveal" tabindex="0">
-            <h4>Grow</h4>
-            <p>Build lasting confidence and problem-solving skills.</p>
-          </div>
-
-          <div class="why-item reveal" tabindex="0">
-            <h4>Our Goal</h4>
-            <p>Help every student feel capable and curious about math.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tutoring -->
-    <section id="tutoring" class="section tutoring reveal" aria-labelledby="tutoring-heading">
-      <div class="container tutoring-inner">
-        <div class="tutoring-left">
-          <h3 id="tutoring-heading" class="section-title">Tutoring</h3>
-          <p class="section-sub">Focused 1:1 support for grades 6–8 — aligned to classroom topics and individual needs.</p>
-
-          <ul class="features-list">
-            <li>Personalized Support</li>
-            <li>Homework Support</li>
-            <li>Concept Review</li>
-            <li>Practice</li>
-            <li>Grades 6–8</li>
-            <li>45-minute session</li>
-          </ul>
-
-          <div class="pricing card small">
-            <p>Session price:</p>
-            <p class="price">$<span class="session-price" data-price></span> / 45-minute session</p>
-            <p class="muted">Price pulled from site configuration (editable in script.js).</p>
-          </div>
-        </div>
-
-        <aside class="tutoring-right">
-          <div class="booking card" aria-labelledby="booking-heading">
-            <h4 id="booking-heading">Booking Request</h4>
-            <p class="muted">Fill out the form below to send a booking request. This is not a confirmed booking — we will contact you to confirm availability.</p>
-
-            <form id="booking-form" novalidate>
-              <div class="form-row">
-                <label for="booking-name">Full name *</label>
-                <input id="booking-name" name="name" required>
-                <div class="field-error" data-for="booking-name" aria-live="polite"></div>
-              </div>
-
-              <div class="form-row">
-                <label for="booking-email">Email *</label>
-                <input id="booking-email" name="email" type="email" required>
-                <div class="field-error" data-for="booking-email" aria-live="polite"></div>
-              </div>
-
-              <div class="form-row">
-                <label for="booking-grade">Student grade *</label>
-                <select id="booking-grade" name="grade" required>
-                  <option value="">Select grade</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                </select>
-                <div class="field-error" data-for="booking-grade" aria-live="polite"></div>
-              </div>
-
-              <div class="form-row">
-                <label for="booking-date">Preferred date *</label>
-                <input id="booking-date" name="date" type="date" required>
-                <div class="field-error" data-for="booking-date" aria-live="polite"></div>
-              </div>
-
-              <div class="form-row">
-                <label for="booking-time">Preferred time *</label>
-                <input id="booking-time" name="time" type="time" required>
-                <div class="field-error" data-for="booking-time" aria-live="polite"></div>
-              </div>
-
-              <div class="form-row">
-                <label for="booking-message">Optional message</label>
-                <textarea id="booking-message" name="message" rows="3"></textarea>
-              </div>
-
-              <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Send Booking Request</button>
-                <div id="booking-form-status" class="form-status" aria-live="polite"></div>
-              </div>
-            </form>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Become a tutor -->
-    <section id="become-tutor" class="section become-tutor reveal" aria-labelledby="become-heading">
-      <div class="container">
-        <h3 id="become-heading" class="section-title">Become a Tutor</h3>
-        <p class="section-sub">Join Axilyn — help students grow while gaining teaching experience.</p>
-
-        <div class="tutor-forms">
-          <form id="tutor-form" class="card" novalidate>
-            <div class="form-row">
-              <label for="tutor-name">Full name *</label>
-              <input id="tutor-name" name="name" required>
-              <div class="field-error" data-for="tutor-name" aria-live="polite"></div>
-            </div>
-
-            <div class="form-row">
-              <label for="tutor-email">Email *</label>
-              <input id="tutor-email" name="email" type="email" required>
-              <div class="field-error" data-for="tutor-email" aria-live="polite"></div>
-            </div>
-
-            <div class="form-row">
-              <label for="tutor-education">Grade level / Education *</label>
-              <input id="tutor-education" name="education" required>
-              <div class="field-error" data-for="tutor-education" aria-live="polite"></div>
-            </div>
-
-            <div class="form-row">
-              <label for="tutor-subjects">Math subjects you can tutor</label>
-              <input id="tutor-subjects" name="subjects">
-            </div>
-
-            <div class="form-row">
-              <label for="tutor-why">Why do you want to tutor? *</label>
-              <textarea id="tutor-why" name="why" rows="3" required></textarea>
-              <div class="field-error" data-for="tutor-why" aria-live="polite"></div>
-            </div>
-
-            <div class="form-row">
-              <label for="tutor-exp">Relevant experience</label>
-              <textarea id="tutor-exp" name="experience" rows="3"></textarea>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Submit Application</button>
-              <div id="tutor-form-status" class="form-status" aria-live="polite"></div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section faq reveal" aria-labelledby="faq-heading">
-      <div class="container">
-        <h3 id="faq-heading" class="section-title">Frequently asked questions</h3>
-
-        <div class="faq-list" role="list">
-          <div class="faq-item card" data-index="0">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">How do I book a session?</button>
-            <div id="faq1" class="faq-answer" role="region" aria-labelledby="faq1-btn" hidden>
-              <p>Use the booking request form on the Tutoring section. We will contact you to confirm availability and finalize the appointment.</p>
-            </div>
-          </div>
-
-          <div class="faq-item card" data-index="1">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">What is your pricing?</button>
-            <div id="faq2" class="faq-answer" role="region" aria-labelledby="faq2-btn" hidden>
-              <p>Standard session pricing is $<span class="session-price" data-price></span> per 45-minute session. Packages or discounts may be available — ask when you request booking.</p>
-            </div>
-          </div>
-
-          <div class="faq-item card" data-index="2">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">Do you do homework help?</button>
-            <div id="faq3" class="faq-answer" role="region" aria-labelledby="faq3-btn" hidden>
-              <p>Yes — tutors can help with homework, concept review, and building stronger foundations. Sessions are tailored to the student's needs.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section contact reveal" aria-labelledby="contact-heading">
-      <div class="container">
-        <h3 id="contact-heading" class="section-title">Contact</h3>
-        <p class="section-sub">Questions? Use this form and we'll get back to you — this is a message request and not a guarantee of a reply.</p>
-
-        <form id="contact-form" class="card contact-form" novalidate>
-          <div class="form-row">
-            <label for="contact-name">Name *</label>
-            <input id="contact-name" name="name" required>
-            <div class="field-error" data-for="contact-name" aria-live="polite"></div>
-          </div>
-
-          <div class="form-row">
-            <label for="contact-email">Email *</label>
-            <input id="contact-email" name="email" type="email" required>
-            <div class="field-error" data-for="contact-email" aria-live="polite"></div>
-          </div>
-
-          <div class="form-row">
-            <label for="contact-who">Who are you? *</label>
-            <select id="contact-who" name="who" required>
-              <option value="">Select</option>
-              <option>Parent/Guardian</option>
-              <option>Student</option>
-              <option>Tutor</option>
-              <option>Other</option>
-            </select>
-            <div class="field-error" data-for="contact-who" aria-live="polite"></div>
-          </div>
-
-          <div class="form-row">
-            <label for="contact-message">Message *</label>
-            <textarea id="contact-message" name="message" rows="4" required></textarea>
-            <div class="field-error" data-for="contact-message" aria-live="polite"></div>
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Send Message</button>
-            <div id="contact-form-status" class="form-status" aria-live="polite"></div>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <svg class="brand-mark" width="36" height="36" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <rect width="64" height="64" rx="8" fill="#0f6b3a"></rect>
-          <text x="10" y="40" font-size="28" fill="#fff" font-weight="700">A</text>
-        </svg>
-        <div>
-          <p class="brand-title small">Axilyn</p>
-          <p class="muted">Math Tutoring for Grades 6–8</p>
-        </div>
-      </div>
-
-      <nav class="footer-nav" aria-label="Footer">
-        <ul>
-          <li><a href="#home" data-nav>Home</a></li>
-          <li><a href="#why" data-nav>Why Axilyn</a></li>
-          <li><a href="#tutoring" data-nav>Tutoring</a></li>
-          <li><a href="#become-tutor" data-nav>Become a Tutor</a></li>
-          <li><a href="#contact" data-nav>Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="footer-info">
-        <p class="muted">Contact requests are handled via the forms on this site. No phone number or email is listed publicly.</p>
-        <p class="copyright">© <span id="copyright-year"></span> Axilyn</p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="script.js" defer></script>
-</body>
-</html>
+            <p class="card-body">Simple pricing that keeps
