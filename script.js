@@ -1,6 +1,8 @@
 /* ========= Configuration ========= */
+/* Single source of truth for session price as requested */
+const SESSION_PRICE = 10;
+
 const CONFIG = {
-  SESSION_PRICE: 10, // single source of truth for session price
   selectors: {
     navToggle: '#nav-toggle',
     navMenu: '#nav-menu',
@@ -12,15 +14,122 @@ const CONFIG = {
     tutorForm: '#tutor-form',
     contactForm: '#contact-form',
     faqQuestions: '.faq-question',
-    faqItems: '.faq-item'
+    faqItems: '.faq-item',
+    heroSlider: '#hero-slider',
+    heroSlides: '.hero-slide',
+    sliderDots: '.slider-dots .dot'
   }
 };
 
 /* ========= Utilities ========= */
 function qs(sel, parent = document){ return parent.querySelector(sel); }
 function qsa(sel, parent = document){ return Array.from(parent.querySelectorAll(sel)); }
-function elExists(el){ return el !== null && el !== undefined; }
-function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textContent = text; }
+
+/* ========= Slider (hero carousel) ========= */
+(function Slider(){
+  const container = qs(CONFIG.selectors.heroSlider);
+  const slides = qsa(CONFIG.selectors.heroSlides);
+  const dots = qsa(CONFIG.selectors.sliderDots);
+  if(!container || slides.length === 0) return;
+
+  // Autoplay configuration
+  const AUTOPLAY_ENABLED = true;            // set false to disable autoplay entirely
+  const AUTOPLAY_INTERVAL = 6000;          // ms between automatic slide changes
+  const USER_PAUSE_AFTER_INTERACT = 20000; // ms to wait after user interaction before resuming
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = 0;
+  let autoplayId = null;
+  let pauseTimeout = null;
+
+  function show(index, { userInitiated = false } = {}) {
+    index = Math.max(0, Math.min(index, slides.length - 1));
+    slides.forEach((s, i) => {
+      if (i === index) {
+        s.classList.add('active');
+        s.removeAttribute('aria-hidden');
+      } else {
+        s.classList.remove('active');
+        s.setAttribute('aria-hidden', 'true');
+      }
+    });
+    dots.forEach((d, i) => d.setAttribute('aria-selected', String(i === index)));
+    current = index;
+
+    if (userInitiated) {
+      pauseTemporary(USER_PAUSE_AFTER_INTERACT);
+    }
+  }
+
+  function next() {
+    show((current + 1) % slides.length);
+  }
+
+  function startAutoplay() {
+    if (!AUTOPLAY_ENABLED || reduceMotion) return;
+    stopAutoplay();
+    autoplayId = setInterval(() => {
+      if (document.hidden) return;
+      try { next(); } catch (e) { console.warn('Autoplay error', e); }
+    }, AUTOPLAY_INTERVAL);
+  }
+
+  function stopAutoplay() {
+    if (autoplayId) {
+      clearInterval(autoplayId);
+      autoplayId = null;
+    }
+  }
+
+  function pauseTemporary(ms = USER_PAUSE_AFTER_INTERACT) {
+    stopAutoplay();
+    clearTimeout(pauseTimeout);
+    if (!reduceMotion && AUTOPLAY_ENABLED) {
+      pauseTimeout = setTimeout(() => {
+        startAutoplay();
+        pauseTimeout = null;
+      }, ms);
+    }
+  }
+
+  // Dots click
+  dots.forEach(d => d.addEventListener('click', (ev) => {
+    const idx = Number(d.dataset.go);
+    show(idx, { userInitiated: true });
+    ev.stopPropagation();
+  }));
+
+  // Pause on hover/focus and resume afterwards
+  container.addEventListener('mouseenter', stopAutoplay);
+  container.addEventListener('mouseleave', () => { if(!pauseTimeout) startAutoplay(); });
+  container.addEventListener('focusin', stopAutoplay);
+  container.addEventListener('focusout', () => { if(!pauseTimeout) startAutoplay(); });
+
+  // Pause when page/tab is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplay();
+    else if (!pauseTimeout) startAutoplay();
+  });
+
+  // Keyboard left/right when slider has focus
+  container.tabIndex = -1;
+  container.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { show(current - 1, { userInitiated: true }); }
+    else if (e.key === 'ArrowRight') { show(current + 1, { userInitiated: true }); }
+  });
+
+  // Expose API for nav code and external controls
+  window.Slider = {
+    goTo: (i) => { show(i, { userInitiated: true }); },
+    next: () => next(),
+    start: () => startAutoplay(),
+    stop: () => stopAutoplay()
+  };
+
+  // Initialize
+  show(0);
+  if (!reduceMotion) startAutoplay();
+})();
 
 /* ========= Navigation ========= */
 (function Navigation(){
@@ -34,6 +143,15 @@ function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textCon
     return;
   }
 
+  // Map anchors to slide indexes (must match slider order)
+  const anchorToSlide = {
+    '#home': 0,
+    '#why': 1,
+    '#tutoring': 2,
+    '#become-tutor': 3,
+    '#contact': 4
+  };
+
   // Toggle mobile menu
   navToggle.addEventListener('click', () => {
     const open = navMenu.classList.toggle('open');
@@ -41,17 +159,19 @@ function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textCon
     navToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   });
 
-  // Close on nav link click (mobile)
+  // Close on nav link click (mobile) and set slider
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      // Smooth scroll to the anchor target (improve keyboard behavior)
       const href = link.getAttribute('href');
       if(href && href.startsWith('#')){
         const target = document.querySelector(href);
         if(target){
           e.preventDefault();
+          const idx = anchorToSlide[href];
+          if(typeof window.Slider !== 'undefined' && typeof idx === 'number'){
+            window.Slider.goTo(idx);
+          }
           target.scrollIntoView({behavior:'smooth', block:'start'});
-          // close menu if open
           if(navMenu.classList.contains('open')){
             navMenu.classList.remove('open');
             navToggle.setAttribute('aria-expanded','false');
@@ -64,9 +184,6 @@ function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textCon
 
   // Highlight nav links as sections enter viewport
   if(sections.length && navLinks.length){
-    const sectionMap = {};
-    sections.forEach(s => sectionMap[s.id] = s);
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const id = entry.target.id;
@@ -87,120 +204,81 @@ function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textCon
 (function Price(){
   const priceEls = qsa(CONFIG.selectors.sessionPrice);
   if(priceEls.length === 0){
-    // Not fatal, but log
     console.warn('Price: no elements with data-price found');
     return;
   }
-  priceEls.forEach(el => {
-    el.textContent = String(CONFIG.SESSION_PRICE);
-  });
+  priceEls.forEach(el => { el.textContent = String(SESSION_PRICE); });
 })();
 
 /* ========= Forms (front-end only) ========= */
 (function Forms(){
-  // Common validation helpers
+  function qsLocal(sel, parent=document){ return parent.querySelector(sel); }
+  function qsaLocal(sel, parent=document){ return Array.from(parent.querySelectorAll(sel)); }
   function showFieldError(field, message){
     const container = document.querySelector(`.field-error[data-for="${field.id}"]`);
     if(container) container.textContent = message || '';
     field.setAttribute('aria-invalid', message ? 'true' : 'false');
   }
-  function clearFieldErrors(form){
-    qsa('.field-error', form).forEach(e => e.textContent = '');
-    qsa('[aria-invalid="true"]', form).forEach(f => f.removeAttribute('aria-invalid'));
-  }
-  function isEmailValid(email){
-    // lightweight email validation
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
+  function clearFieldErrors(form){ qsaLocal('.field-error', form).forEach(e => e.textContent = ''); qsaLocal('[aria-invalid="true"]', form).forEach(f => f.removeAttribute('aria-invalid')); }
+  function isEmailValid(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
-  /* Booking form */
   const bookingForm = qs(CONFIG.selectors.bookingForm);
   if(bookingForm){
     const status = qs('#booking-form-status');
     bookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearFieldErrors(bookingForm);
-
-      const name = qs('#booking-name', bookingForm);
-      const email = qs('#booking-email', bookingForm);
-      const grade = qs('#booking-grade', bookingForm);
-      const date = qs('#booking-date', bookingForm);
-      const time = qs('#booking-time', bookingForm);
-
+      e.preventDefault(); clearFieldErrors(bookingForm);
+      const name = qsLocal('#booking-name', bookingForm);
+      const email = qsLocal('#booking-email', bookingForm);
+      const grade = qsLocal('#booking-grade', bookingForm);
+      const date = qsLocal('#booking-date', bookingForm);
+      const time = qsLocal('#booking-time', bookingForm);
       let ok = true;
       if(!name.value.trim()){ showFieldError(name, 'Please enter your full name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; }
-      else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
+      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
       if(!grade.value){ showFieldError(grade, 'Please select a grade'); ok=false; }
       if(!date.value){ showFieldError(date, 'Please select a preferred date'); ok=false; }
       if(!time.value){ showFieldError(time, 'Please select a preferred time'); ok=false; }
-
-      if(!ok){
-        if(status) status.textContent = 'Please correct the errors above.';
-        return;
-      }
-
-      // Show friendly success message but do not claim a confirmed booking.
+      if(!ok){ if(status) status.textContent = 'Please correct the errors above.'; return; }
       if(status) status.textContent = 'Booking request submitted. We will review your request and contact you to confirm availability.';
       bookingForm.reset();
     });
   }
 
-  /* Tutor application form */
   const tutorForm = qs(CONFIG.selectors.tutorForm);
   if(tutorForm){
     const status = qs('#tutor-form-status');
     tutorForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearFieldErrors(tutorForm);
-
-      const name = qs('#tutor-name', tutorForm);
-      const email = qs('#tutor-email', tutorForm);
-      const education = qs('#tutor-education', tutorForm);
-      const why = qs('#tutor-why', tutorForm);
-
+      e.preventDefault(); clearFieldErrors(tutorForm);
+      const name = qsLocal('#tutor-name', tutorForm);
+      const email = qsLocal('#tutor-email', tutorForm);
+      const education = qsLocal('#tutor-education', tutorForm);
+      const why = qsLocal('#tutor-why', tutorForm);
       let ok = true;
       if(!name.value.trim()){ showFieldError(name, 'Please enter your full name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; }
-      else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
+      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
       if(!education.value.trim()){ showFieldError(education, 'Please provide your education or grade level'); ok=false; }
       if(!why.value.trim()){ showFieldError(why, 'Please tell us why you want to tutor'); ok=false; }
-
-      if(!ok){
-        if(status) status.textContent = 'Please correct the errors above.';
-        return;
-      }
-
+      if(!ok){ if(status) status.textContent = 'Please correct the errors above.'; return; }
       if(status) status.textContent = 'Application submitted locally. We will review and contact you if there is a role match.';
       tutorForm.reset();
     });
   }
 
-  /* Contact form */
   const contactForm = qs(CONFIG.selectors.contactForm);
   if(contactForm){
     const status = qs('#contact-form-status');
     contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      clearFieldErrors(contactForm);
-
-      const name = qs('#contact-name', contactForm);
-      const email = qs('#contact-email', contactForm);
-      const who = qs('#contact-who', contactForm);
-      const msg = qs('#contact-message', contactForm);
-
+      e.preventDefault(); clearFieldErrors(contactForm);
+      const name = qsLocal('#contact-name', contactForm);
+      const email = qsLocal('#contact-email', contactForm);
+      const who = qsLocal('#contact-who', contactForm);
+      const msg = qsLocal('#contact-message', contactForm);
       let ok = true;
       if(!name.value.trim()){ showFieldError(name, 'Please enter your name'); ok=false; }
-      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; }
-      else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
+      if(!email.value.trim()){ showFieldError(email, 'Please provide an email'); ok=false; } else if(!isEmailValid(email.value.trim())){ showFieldError(email, 'Please enter a valid email address'); ok=false; }
       if(!who.value){ showFieldError(who, 'Please select an option'); ok=false; }
       if(!msg.value.trim()){ showFieldError(msg, 'Please enter a message'); ok=false; }
-
-      if(!ok){
-        if(status) status.textContent = 'Please correct the errors above.';
-        return;
-      }
-
+      if(!ok){ if(status) status.textContent = 'Please correct the errors above.'; return; }
       if(status) status.textContent = 'Message submitted locally. We will reply if necessary. This is not an automatic email response.';
       contactForm.reset();
     });
@@ -210,27 +288,21 @@ function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textCon
 /* ========= FAQ accordion ========= */
 (function FAQ(){
   const questions = qsa(CONFIG.selectors.faqQuestions);
-  const items = qsa(CONFIG.selectors.faqItems);
   if(questions.length === 0) return;
-
   questions.forEach(btn => {
     btn.addEventListener('click', () => {
       const expanded = btn.getAttribute('aria-expanded') === 'true';
-      // Close all
       questions.forEach(b => {
         b.setAttribute('aria-expanded','false');
         const cid = b.getAttribute('aria-controls');
         const region = cid ? qs(`#${cid}`) : null;
         if(region) region.hidden = true;
       });
-
       if(!expanded){
-        // Open clicked
         btn.setAttribute('aria-expanded','true');
         const cid = btn.getAttribute('aria-controls');
         const region = cid ? qs(`#${cid}`) : null;
         if(region) region.hidden = false;
-        // move focus to region for assistive tech optionally
         region && region.setAttribute('tabindex','0');
       }
     });
@@ -241,46 +313,21 @@ function setTextSafe(selector, text){ const el = qs(selector); if(el) el.textCon
 (function Reveal(){
   const revealEls = qsa(CONFIG.selectors.reveal);
   if(revealEls.length === 0) return;
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        // Optionally unobserve to avoid repeat animations
-        observer.unobserve(entry.target);
-      }
+      if(entry.isIntersecting){ entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
     });
   }, {threshold: 0.12});
-
   revealEls.forEach(el => observer.observe(el));
 })();
 
 /* ========= Accessibility helpers ========= */
 (function Accessibility(){
-  // Add visible year in footer
-  const yearEl = qs('#copyright-year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
-
-  // Ensure focusable cards for keyboard users
-  qsa('.card[tabindex]').forEach(c => {
-    c.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' ') c.click && c.click();
-    });
-  });
-
-  // Respect reduced motion already handled in CSS.
+  const yearEl = qs('#copyright-year'); if(yearEl) yearEl.textContent = new Date().getFullYear();
+  qsa('.card[tabindex]').forEach(c => { c.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') c.click && c.click(); }); });
 })();
 
-/* ========= Safety: ensure selectors exist before use (sanity log) ========= */
+/* ========= Sanity checks ========= */
 (function Sanity(){
-  // Check for elements referenced in navigation anchors
-  qsa('a[data-nav]').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    if(href.startsWith('#')){
-      const target = document.querySelector(href);
-      if(!target){
-        console.warn(`Navigation link points to missing target: ${href}`);
-      }
-    }
-  });
+  qsa('a[data-nav]').forEach(a => { const href = a.getAttribute('href') || ''; if(href.startsWith('#')){ const target = document.querySelector(href); if(!target){ console.warn(`Navigation link points to missing target: ${href}`); } } });
 })();
