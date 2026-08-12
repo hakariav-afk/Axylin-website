@@ -1,1485 +1,376 @@
-/* =========================================================
-   AXILYN — MAIN STYLESHEET
-   ========================================================= */
-
-/* ---------- BRAND VARIABLES ---------- */
-
-:root {
-  --brand: #0f6b3a;
-  --brand-dark: #0a4f2b;
-  --brand-light: #eaf6ef;
-  --brand-lighter: #f4faf6;
-  --accent: #8fc9a8;
-
-  --text: #101817;
-  --text-soft: #3f4b46;
-  --muted: #68736e;
-
-  --white: #ffffff;
-  --background: #f8fbf9;
-  --background-soft: #eef7f1;
-  --border: #dfeae3;
-
-  --shadow-sm: 0 4px 14px rgba(15, 107, 58, 0.07);
-  --shadow-md: 0 10px 30px rgba(15, 107, 58, 0.10);
-  --shadow-lg: 0 18px 50px rgba(15, 107, 58, 0.14);
-
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-
-  --page-max: 1150px;
-}
-
-
-/* ---------- RESET ---------- */
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 85px;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
-
-  color: var(--text);
-  background:
-    linear-gradient(
-      180deg,
-      #ffffff 0%,
-      var(--background) 45%,
-      #ffffff 100%
-    );
-
-  line-height: 1.6;
-  font-size: 16px;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-img,
-svg {
-  max-width: 100%;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-a {
-  color: inherit;
-}
-
-::selection {
-  background: var(--brand);
-  color: white;
-}
-
-
-/* ---------- CONTAINER ---------- */
-
-.container {
-  width: min(
-    calc(100% - 2.5rem),
-    var(--page-max)
-  );
-
-  margin: 0 auto;
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.site-header {
-  position: sticky;
-  top: 0;
-
-  z-index: 100;
-
-  background: rgba(255, 255, 255, 0.94);
-
-  border-bottom: 1px solid rgba(15, 107, 58, 0.10);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.header-inner {
-  min-height: 72px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 2rem;
-}
-
-
-/* ---------- BRAND ---------- */
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-
-  color: var(--brand-dark);
-
-  text-decoration: none;
-
-  font-weight: 700;
-}
-
-.brand-mark {
-  width: 40px;
-  height: 40px;
-
-  border-radius: 10px;
-
-  flex-shrink: 0;
-}
-
-.brand-name {
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-}
-
-
-/* ---------- NAVIGATION ---------- */
-
-.main-nav {
-  display: flex;
-  align-items: center;
-}
-
-.nav-list {
-  display: flex;
-  align-items: center;
-
-  gap: 0.35rem;
-
-  list-style: none;
-
-  margin: 0;
-  padding: 0;
-}
-
-.nav-list a {
-  display: block;
-
-  padding: 0.55rem 0.8rem;
-
-  border-radius: 8px;
-
-  text-decoration: none;
-
-  color: var(--text-soft);
-
-  font-size: 0.95rem;
-  font-weight: 600;
-
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.nav-list a:hover {
-  background: var(--brand-light);
-  color: var(--brand-dark);
-}
-
-.nav-list a:focus-visible {
-  outline: 3px solid rgba(15, 107, 58, 0.22);
-  outline-offset: 2px;
-}
-
-.nav-link.active {
-  background: var(--brand);
-  color: white;
-}
-
-.nav-link.active:hover {
-  background: var(--brand-dark);
-  color: white;
-}
-
-
-/* ---------- MOBILE MENU BUTTON ---------- */
-
-.nav-toggle {
-  display: none;
-
-  width: 44px;
-  height: 44px;
-
-  padding: 0;
-
-  border: 0;
-  border-radius: 10px;
-
-  background: var(--brand-light);
-
-  cursor: pointer;
-}
-
-.nav-toggle:hover {
-  background: #dcefe3;
-}
-
-.nav-toggle:focus-visible {
-  outline: 3px solid rgba(15, 107, 58, 0.25);
-  outline-offset: 2px;
-}
-
-.hamburger,
-.hamburger::before,
-.hamburger::after {
-  display: block;
-
-  width: 22px;
-  height: 2px;
-
-  background: var(--brand-dark);
-
-  border-radius: 10px;
-}
-
-.hamburger {
-  position: relative;
-  margin: auto;
-}
-
-.hamburger::before,
-.hamburger::after {
-  content: "";
-
-  position: absolute;
-  left: 0;
-}
-
-.hamburger::before {
-  top: -7px;
-}
-
-.hamburger::after {
-  top: 7px;
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.hero-section {
-  position: relative;
-
-  overflow: hidden;
-
-  padding: 6rem 0 5rem;
-
-  background:
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(143, 201, 168, 0.20),
-      transparent 35%
-    ),
-    linear-gradient(
-      180deg,
-      #ffffff,
-      var(--brand-lighter)
-    );
-}
-
-.hero-section::before {
-  content: "";
-
-  position: absolute;
-
-  width: 350px;
-  height: 350px;
-
-  border-radius: 50%;
-
-  background: rgba(15, 107, 58, 0.035);
-
-  top: -160px;
-  left: -120px;
-}
-
-.hero-grid {
-  position: relative;
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(0, 1.1fr)
-    minmax(320px, 0.9fr);
-
-  align-items: center;
-
-  gap: 4rem;
-}
-
-
-/* ---------- HERO TEXT ---------- */
-
-.hero-copy {
-  max-width: 650px;
-}
-
-.hero-copy h1 {
-  margin: 0 0 1.25rem;
-
-  color: var(--text);
-
-  font-size: clamp(
-    2.5rem,
-    5vw,
-    4.3rem
-  );
-
-  line-height: 1.04;
-
-  letter-spacing: -0.045em;
-}
-
-.hero-copy h1 span {
-  color: var(--brand);
-}
-
-.lead {
-  max-width: 600px;
-
-  margin: 0 0 1.75rem;
-
-  color: var(--text-soft);
-
-  font-size: 1.12rem;
-  line-height: 1.75;
-}
-
-
-/* ---------- HERO BUTTONS ---------- */
-
-.hero-ctas {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 0.8rem;
-
-  margin-bottom: 1.5rem;
-}
-
-.btn {
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 0.5rem;
-
-  min-height: 46px;
-
-  padding: 0.7rem 1.1rem;
-
-  border-radius: 10px;
-
-  border: 1px solid transparent;
-
-  font-weight: 700;
-
-  text-decoration: none;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.btn.primary {
-  background: var(--brand);
-  color: white;
-
-  box-shadow:
-    0 6px 18px rgba(15, 107, 58, 0.18);
-}
-
-.btn.primary:hover {
-  background: var(--brand-dark);
-
-  box-shadow:
-    0 9px 24px rgba(15, 107, 58, 0.24);
-}
-
-.btn.ghost {
-  background: white;
-
-  color: var(--brand);
-
-  border-color: var(--border);
-}
-
-.btn.ghost:hover {
-  background: var(--brand-light);
-
-  border-color: #cfe4d6;
-}
-
-.btn.large {
-  min-height: 52px;
-
-  padding:
-    0.85rem
-    1.3rem;
-
-  font-size: 1rem;
-}
-
-
-/* ---------- HERO PILLS ---------- */
-
-.home-features {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 0.6rem;
-
-  margin: 0;
-
-  padding: 0;
-
-  list-style: none;
-}
-
-.pill {
-  padding:
-    0.4rem
-    0.75rem;
-
-  border-radius: 999px;
-
-  background: white;
-
-  border: 1px solid #dcebe1;
-
-  color: var(--brand-dark);
-
-  font-size: 0.85rem;
-  font-weight: 700;
-
-  box-shadow: var(--shadow-sm);
-}
-
-
-/* ---------- HERO VISUAL ---------- */
-
-.hero-visual {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-}
-
-.math-visual {
-  width: 100%;
-  max-width: 470px;
-
-  border-radius: var(--radius-lg);
-
-  background: white;
-
-  border: 1px solid rgba(15, 107, 58, 0.10);
-
-  box-shadow: var(--shadow-lg);
-
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   SECTIONS
-   ========================================================= */
-
-.section {
-  padding: 5rem 0;
-}
-
-.section.alt {
-  background:
-    linear-gradient(
-      180deg,
-      var(--brand-lighter),
-      #ffffff
-    );
-}
-
-.section-title {
-  margin: 0 0 0.5rem;
-
-  color: var(--text);
-
-  font-size: clamp(
-    1.8rem,
-    3vw,
-    2.5rem
-  );
-
-  line-height: 1.15;
-
-  letter-spacing: -0.03em;
-}
-
-.section-title::after {
-  content: "";
-
-  display: block;
-
-  width: 42px;
-  height: 4px;
-
-  margin-top: 0.75rem;
-
-  border-radius: 999px;
-
-  background: var(--brand);
-}
-
-.section-sub {
-  max-width: 700px;
-
-  margin: 0 0 2rem;
-
-  color: var(--muted);
-
-  font-size: 1.02rem;
-}
-
-
-/* =========================================================
-   OFFER CARDS
-   ========================================================= */
-
-.cards {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
-  gap: 1rem;
-
-  margin-top: 2rem;
-}
-
-.card {
-  position: relative;
-
-  padding: 1.6rem;
-
-  background: white;
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius-md);
-
-  box-shadow: var(--shadow-sm);
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.card::before {
-  content: "";
-
-  display: block;
-
-  width: 36px;
-  height: 4px;
-
-  margin-bottom: 1.2rem;
-
-  border-radius: 999px;
-
-  background: var(--brand);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-
-  border-color: #cfe4d6;
-
-  box-shadow: var(--shadow-md);
-}
-
-.card h3 {
-  margin: 0 0 0.6rem;
-
-  font-size: 1.1rem;
-
-  color: var(--text);
-}
-
-.card p {
-  margin: 0;
-
-  color: var(--muted);
-
-  font-size: 0.95rem;
-}
-
-
-/* =========================================================
-   WHY AXILYN
-   ========================================================= */
-
-.three-points {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 1rem;
-
-  margin-top: 2rem;
-}
-
-.point {
-  padding: 1.6rem;
-
-  background: white;
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius-md);
-
-  box-shadow: var(--shadow-sm);
-}
-
-.point h3 {
-  margin: 0 0 0.6rem;
-
-  color: var(--brand);
-
-  font-size: 1.25rem;
-}
-
-.point p {
-  margin: 0;
-
-  color: var(--muted);
-}
-
-
-/* ---------- GOAL ---------- */
-
-.goal {
-  margin-top: 1.5rem;
-
-  padding: 1.5rem;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--brand),
-      var(--brand-dark)
-    );
-
-  border-radius: var(--radius-md);
-
-  color: white;
-
-  box-shadow: var(--shadow-md);
-}
-
-.goal h4 {
-  margin: 0 0 0.4rem;
-
-  font-size: 1.1rem;
-}
-
-.goal p {
-  margin: 0;
-
-  color: rgba(255, 255, 255, 0.88);
-}
-
-
-/* =========================================================
-   TUTORING / TWO COLUMN
-   ========================================================= */
-
-.two-col {
-  display: grid;
-
-  grid-template-columns:
-    minmax(0, 1.5fr)
-    minmax(320px, 0.8fr);
-
-  gap: 2rem;
-
-  align-items: start;
-}
-
-.content {
-  min-width: 0;
-}
-
-.content h3 {
-  margin-top: 0;
-
-  font-size: 1.4rem;
-}
-
-
-/* =========================================================
-   CHECKLIST
-   ========================================================= */
-
-.checklist {
-  list-style: none;
-
-  margin: 0 0 1.5rem;
-
-  padding: 0;
-}
-
-.checklist li {
-  position: relative;
-
-  padding:
-    0.75rem
-    0
-    0.75rem
-    2rem;
-
-  color: var(--text-soft);
-
-  border-bottom: 1px solid #edf3ef;
-}
-
-.checklist li::before {
-  content: "✓";
-
-  position: absolute;
-
-  left: 0;
-  top: 0.72rem;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 22px;
-  height: 22px;
-
-  border-radius: 50%;
-
-  background: var(--brand-light);
-
-  color: var(--brand);
-
-  font-size: 0.8rem;
-  font-weight: 800;
-}
-
-
-/* =========================================================
-   PRICING
-   ========================================================= */
-
-.pricing {
-  margin-top: 2rem;
-
-  padding: 1.5rem;
-
-  background: white;
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius-md);
-
-  box-shadow: var(--shadow-sm);
-}
-
-.pricing h4 {
-  margin: 0 0 0.25rem;
-
-  color: var(--brand);
-
-  font-size: 1.15rem;
-}
-
-.price-note {
-  margin: 0 0 0.3rem;
-
-  color: var(--muted);
-}
-
-.price {
-  margin: 0 0 0.5rem;
-}
-
-.price.large {
-  font-size: 1.8rem;
-
-  font-weight: 800;
-
-  color: var(--text);
-}
-
-.price-amount {
-  color: var(--brand);
-}
-
-.price-unit {
-  font-size: 0.95rem;
-
-  font-weight: 600;
-
-  color: var(--muted);
-}
-
-
-/* =========================================================
-   CARDS / FORMS
-   ========================================================= */
-
-.booking-card,
-.application-card,
-.contact-info {
-  background: white;
-
-  padding: 1.7rem;
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius-md);
-
-  box-shadow: var(--shadow-md);
-}
-
-.booking-card h3,
-.application-card h3,
-.contact-info h3 {
-  margin-top: 0;
-
-  color: var(--text);
-}
-
-
-/* =========================================================
-   FORMS
-   ========================================================= */
-
-.form {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 0.55rem;
-}
-
-.form label {
-  margin-top: 0.35rem;
-
-  color: var(--text-soft);
-
-  font-size: 0.9rem;
-
-  font-weight: 700;
-}
-
-.form input,
-.form select,
-.form textarea {
-  width: 100%;
-
-  padding:
-    0.72rem
-    0.8rem;
-
-  background: #fbfdfc;
-
-  border: 1px solid #dce7e0;
-
-  border-radius: 9px;
-
-  color: var(--text);
-
-  font-size: 1rem;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.form textarea {
-  resize: vertical;
-
-  min-height: 100px;
-}
-
-.form input:hover,
-.form select:hover,
-.form textarea:hover {
-  border-color: #bdd6c6;
-}
-
-.form input:focus,
-.form select:focus,
-.form textarea:focus {
-  outline: none;
-
-  background: white;
-
-  border-color: var(--brand);
-
-  box-shadow:
-    0 0 0 4px rgba(15, 107, 58, 0.10);
-}
-
-.form button {
-  margin-top: 0.75rem;
-}
-
-.form-feedback {
-  min-height: 1.5rem;
-
-  margin-top: 0.4rem;
-
-  color: var(--brand-dark);
-
-  font-weight: 600;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.small {
-  font-size: 0.88rem;
-}
-
-
-/* =========================================================
-   FAQ
-   ========================================================= */
-
-.faq-list {
-  display: grid;
-
-  gap: 0.75rem;
-
-  max-width: 800px;
-}
-
-.faq-item {
-  background: white;
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius-md);
-
-  overflow: hidden;
-
-  box-shadow: var(--shadow-sm);
-}
-
-.faq-question {
-  width: 100%;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 1rem 1.1rem;
-
-  border: 0;
-
-  background: white;
-
-  color: var(--text);
-
-  text-align: left;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-}
-
-.faq-question:hover {
-  background: var(--brand-lighter);
-
-  color: var(--brand-dark);
-}
-
-.faq-question::after {
-  content: "+";
-
-  color: var(--brand);
-
-  font-size: 1.3rem;
-
-  transition: transform 0.2s ease;
-}
-
-.faq-question[aria-expanded="true"]::after {
-  content: "−";
-}
-
-.faq-answer {
-  padding: 0 1.1rem 1rem;
-
-  border-left: 4px solid var(--brand);
-
-  background: var(--brand-lighter);
-}
-
-.faq-answer p {
-  margin: 0;
-
-  color: var(--text-soft);
-}
-
-
-/* =========================================================
-   CONTACT
-   ========================================================= */
-
-.contact-grid {
-  display: grid;
-
-  grid-template-columns:
-    minmax(0, 1fr)
-    minmax(280px, 0.65fr);
-
-  gap: 2rem;
-
-  align-items: start;
-}
-
-.contact-info {
-  height: fit-content;
-}
-
-.contact-info h4 {
-  margin-bottom: 0.3rem;
-
-  color: var(--brand);
-}
-
-
-/* =========================================================
-   FINAL CTA
-   ========================================================= */
-
-.final-cta {
-  padding: 5rem 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--brand),
-      var(--brand-dark)
-    );
-
-  color: white;
-}
-
-.final-cta-inner {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 2rem;
-}
-
-.final-cta h2 {
-  margin: 0;
-
-  max-width: 650px;
-
-  font-size: clamp(
-    1.8rem,
-    4vw,
-    2.7rem
-  );
-
-  line-height: 1.15;
-
-  letter-spacing: -0.03em;
-}
-
-.final-cta .btn.primary {
-  flex-shrink: 0;
-
-  background: white;
-
-  color: var(--brand);
-
-  box-shadow: none;
-}
-
-.final-cta .btn.primary:hover {
-  background: var(--brand-light);
-
-  color: var(--brand-dark);
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.site-footer {
-  padding: 2rem 0;
-
-  background: #073d22;
-
-  color: white;
-}
-
-.footer-inner {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 1rem;
-}
-
-.footer-links {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 1rem;
-
-  list-style: none;
-
-  margin: 0;
-  padding: 0;
-}
-
-.footer-links a {
-  color: rgba(255, 255, 255, 0.78);
-
-  text-decoration: none;
-
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: white;
-}
-
-
-/* =========================================================
-   REVEAL ANIMATIONS
-   ========================================================= */
-
-.js .reveal {
-  opacity: 0;
-
-  transform: translateY(20px);
-
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.js .reveal.visible {
-  opacity: 1;
-
-  transform: translateY(0);
-}
-
-
-/* =========================================================
-   ACCESSIBILITY
-   ========================================================= */
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid rgba(15, 107, 58, 0.25);
-
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   RESPONSIVE — TABLET
-   ========================================================= */
-
-@media (max-width: 1000px) {
-
-  .hero-grid {
-    grid-template-columns: 1fr 320px;
-
-    gap: 2rem;
-  }
-
-  .cards {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
-  .two-col {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-card,
-  .application-card {
-    order: 2;
-  }
-
-  .three-points {
-    grid-template-columns:
-      repeat(3, 1fr);
-  }
-}
-
-
-/* =========================================================
-   RESPONSIVE — MOBILE
-   ========================================================= */
-
-@media (max-width: 720px) {
-
-  .container {
-    width: min(
-      calc(100% - 1.5rem),
-      var(--page-max)
-    );
-  }
-
-  .header-inner {
-    min-height: 64px;
-  }
-
-  .nav-toggle {
-    display: block;
-  }
-
-  .nav-list {
-    position: absolute;
-
-    top: calc(100% + 8px);
-    right: 0;
-
-    width: min(
-      260px,
-      calc(100vw - 2rem)
-    );
-
-    display: none;
-
-    flex-direction: column;
-
-    align-items: stretch;
-
-    gap: 0.25rem;
-
-    padding: 0.75rem;
-
-    background: white;
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius-md);
-
-    box-shadow: var(--shadow-lg);
-  }
-
-  .nav-list.show {
-    display: flex;
-  }
-
-  .main-nav {
-    position: relative;
-  }
-
-  .nav-list a {
-    width: 100%;
-
-    padding: 0.75rem;
-
-    border-radius: 8px;
-  }
-
-  .brand-name {
-    display: block;
-  }
-
-  .hero-section {
-    padding: 4rem 0 3.5rem;
-  }
-
-  .hero-grid {
-    grid-template-columns: 1fr;
-
-    gap: 2rem;
-  }
-
-  .hero-copy h1 {
-    font-size: clamp(
-      2.35rem,
-      11vw,
-      3.4rem
-    );
-  }
-
-  .lead {
-    font-size: 1rem;
-  }
-
-  .hero-visual {
-    order: 2;
-  }
-
-  .math-visual {
-    max-width: 100%;
-  }
-
-  .section {
-    padding: 3.75rem 0;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .three-points {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .final-cta {
-    padding: 3.5rem 0;
-  }
-
-  .final-cta-inner {
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-
-  .final-cta .btn {
-    width: 100%;
-  }
-
-  .footer-inner {
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-}
-
-
-/* =========================================================
-   RESPONSIVE — SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 450px) {
-
-  .hero-ctas {
-    flex-direction: column;
-
-    align-items: stretch;
-  }
-
-  .hero-ctas .btn {
-    width: 100%;
-  }
-
-  .home-features {
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-
-  .pill {
-    width: fit-content;
-  }
-
-  .booking-card,
-  .application-card,
-  .contact-info {
-    padding: 1.2rem;
-  }
-
-  .pricing {
-    padding: 1.2rem;
-  }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .js .reveal {
-    opacity: 1;
-
-    transform: none;
-  }
-}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Axilyn — Math Tutoring for Grades 6–8</title>
+  <meta name="description" content="Axilyn — Professional, affordable, personalized math tutoring for grades 6–8." />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="home">
+    <div class="container header-inner">
+      <div class="brand">
+        <svg class="brand-mark" width="44" height="44" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <rect width="64" height="64" rx="10" fill="#0f6b3a"></rect>
+          <g fill="#fff" font-family="sans-serif" font-weight="700" font-size="28" transform="translate(8,8)">
+            <text x="0" y="32">A</text>
+          </g>
+        </svg>
+        <div>
+          <h1 class="brand-title">Axilyn</h1>
+          <p class="brand-tag">Math Tutoring for Grades 6–8</p>
+        </div>
+      </div>
+
+      <button id="nav-toggle" class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Open navigation">
+        <span class="hamburger">
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+        </span>
+      </button>
+
+      <nav id="nav-menu" class="nav" role="navigation" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="#home" data-nav>Home</a></li>
+          <li><a href="#why" data-nav>Why Axilyn</a></li>
+          <li><a href="#tutoring" data-nav>Tutoring</a></li>
+          <li><a href="#become-tutor" data-nav>Become a Tutor</a></li>
+          <li><a href="#contact" data-nav>Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main">
+    <section class="hero section reveal" aria-labelledby="hero-heading">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h2 id="hero-heading" class="hero-title">Personalized math support for confident learning</h2>
+          <p class="hero-lead">Focused, friendly tutoring for grades 6–8 — build strong foundations, gain confidence, and enjoy learning again.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#tutoring" data-nav>Book a Session</a>
+            <a class="btn btn-secondary" href="#why" data-nav>Why Axilyn</a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <!-- Math-themed SVG (keeps math visuals) -->
+          <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" class="math-svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#eaf6ee"/>
+                <stop offset="1" stop-color="#f6fff8"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="400" height="300" rx="16" fill="url(#g1)"/>
+            <g transform="translate(20,20)" fill="#0f6b3a" opacity="0.9" >
+              <text x="0" y="40" font-size="36" font-weight="600">x + y = ?</text>
+              <g transform="translate(0,80)">
+                <circle cx="40" cy="40" r="34" fill="#fff" stroke="#d6f0df" stroke-width="4"></circle>
+                <text x="28" y="52" font-size="28" fill="#0f6b3a" font-weight="700">+</text>
+              </g>
+              <g transform="translate(140,40)" opacity="0.9">
+                <path d="M10 10 L60 10 L60 60 L10 60 Z" fill="#0f6b3a" opacity="0.08"></path>
+                <text x="0" y="70" font-size="26" fill="#0f6b3a">45 min</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="offers" class="section offers reveal" aria-labelledby="offers-heading">
+      <div class="container">
+        <h3 id="offers-heading" class="section-title">What we offer</h3>
+        <p class="section-sub">Support designed for each student, with proven classroom-aligned approaches.</p>
+
+        <div class="cards">
+          <article class="card reveal" tabindex="0" aria-labelledby="card1-title">
+            <h4 id="card1-title" class="card-title">Personalized Learning</h4>
+            <p class="card-body">Lessons tailored to each student's needs and learning pace.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0" aria-labelledby="card2-title">
+            <h4 id="card2-title" class="card-title">Strong Foundations</h4>
+            <p class="card-body">Focus on core skills so students can tackle new problems with confidence.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0" aria-labelledby="card3-title">
+            <h4 id="card3-title" class="card-title">Flexible & Convenient</h4>
+            <p class="card-body">Online sessions scheduled around your family’s life.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0" aria-labelledby="card4-title">
+            <h4 id="card4-title" class="card-title">Affordable Pricing</h4>
+            <p class="card-body">Simple pricing that keeps quality tutoring within reach.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="section why reveal" aria-labelledby="why-heading">
+      <div class="container why-inner">
+        <h3 id="why-heading" class="section-title">Why Axilyn</h3>
+        <div class="why-grid">
+          <div class="why-item reveal" tabindex="0">
+            <h4>Learn</h4>
+            <p>Structured lessons focused on understanding, not memorization.</p>
+          </div>
+
+          <div class="why-item reveal" tabindex="0">
+            <h4>Practice</h4>
+            <p>Hands-on practice with guidance and timely feedback.</p>
+          </div>
+
+          <div class="why-item reveal" tabindex="0">
+            <h4>Grow</h4>
+            <p>Build lasting confidence and problem-solving skills.</p>
+          </div>
+
+          <div class="why-item reveal" tabindex="0">
+            <h4>Our Goal</h4>
+            <p>Help every student feel capable and curious about math.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tutoring" class="section tutoring reveal" aria-labelledby="tutoring-heading">
+      <div class="container tutoring-inner">
+        <div class="tutoring-left">
+          <h3 id="tutoring-heading" class="section-title">Tutoring</h3>
+          <p class="section-sub">Focused 1:1 support for grades 6–8 — aligned to classroom topics and individual needs.</p>
+
+          <ul class="features-list">
+            <li>Personalized Support</li>
+            <li>Homework Support</li>
+            <li>Concept Review</li>
+            <li>Practice</li>
+            <li>Grades 6–8</li>
+            <li>45-minute session</li>
+          </ul>
+
+          <div class="pricing card small">
+            <p>Session price:</p>
+            <p class="price">$<span class="session-price" data-price></span> / 45-minute session</p>
+            <p class="muted">Price pulled from site configuration (editable in script.js).</p>
+          </div>
+        </div>
+
+        <aside class="tutoring-right">
+          <div class="booking card" aria-labelledby="booking-heading">
+            <h4 id="booking-heading">Booking Request</h4>
+            <p class="muted">Fill out the form below to send a booking request. This is not a confirmed booking — we will contact you to confirm availability.</p>
+
+            <form id="booking-form" novalidate>
+              <div class="form-row">
+                <label for="booking-name">Full name *</label>
+                <input id="booking-name" name="name" required>
+                <div class="field-error" data-for="booking-name" aria-live="polite"></div>
+              </div>
+
+              <div class="form-row">
+                <label for="booking-email">Email *</label>
+                <input id="booking-email" name="email" type="email" required>
+                <div class="field-error" data-for="booking-email" aria-live="polite"></div>
+              </div>
+
+              <div class="form-row">
+                <label for="booking-grade">Student grade *</label>
+                <select id="booking-grade" name="grade" required>
+                  <option value="">Select grade</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                </select>
+                <div class="field-error" data-for="booking-grade" aria-live="polite"></div>
+              </div>
+
+              <div class="form-row">
+                <label for="booking-date">Preferred date *</label>
+                <input id="booking-date" name="date" type="date" required>
+                <div class="field-error" data-for="booking-date" aria-live="polite"></div>
+              </div>
+
+              <div class="form-row">
+                <label for="booking-time">Preferred time *</label>
+                <input id="booking-time" name="time" type="time" required>
+                <div class="field-error" data-for="booking-time" aria-live="polite"></div>
+              </div>
+
+              <div class="form-row">
+                <label for="booking-message">Optional message</label>
+                <textarea id="booking-message" name="message" rows="3"></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Send Booking Request</button>
+                <div id="booking-form-status" class="form-status" aria-live="polite"></div>
+              </div>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="become-tutor" class="section become-tutor reveal" aria-labelledby="become-heading">
+      <div class="container">
+        <h3 id="become-heading" class="section-title">Become a Tutor</h3>
+        <p class="section-sub">Join Axilyn — help students grow while gaining teaching experience.</p>
+
+        <div class="tutor-forms">
+          <form id="tutor-form" class="card" novalidate>
+            <div class="form-row">
+              <label for="tutor-name">Full name *</label>
+              <input id="tutor-name" name="name" required>
+              <div class="field-error" data-for="tutor-name" aria-live="polite"></div>
+            </div>
+
+            <div class="form-row">
+              <label for="tutor-email">Email *</label>
+              <input id="tutor-email" name="email" type="email" required>
+              <div class="field-error" data-for="tutor-email" aria-live="polite"></div>
+            </div>
+
+            <div class="form-row">
+              <label for="tutor-education">Grade level / Education *</label>
+              <input id="tutor-education" name="education" required>
+              <div class="field-error" data-for="tutor-education" aria-live="polite"></div>
+            </div>
+
+            <div class="form-row">
+              <label for="tutor-subjects">Math subjects you can tutor</label>
+              <input id="tutor-subjects" name="subjects">
+            </div>
+
+            <div class="form-row">
+              <label for="tutor-why">Why do you want to tutor? *</label>
+              <textarea id="tutor-why" name="why" rows="3" required></textarea>
+              <div class="field-error" data-for="tutor-why" aria-live="polite"></div>
+            </div>
+
+            <div class="form-row">
+              <label for="tutor-exp">Relevant experience</label>
+              <textarea id="tutor-exp" name="experience" rows="3"></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Submit Application</button>
+              <div id="tutor-form-status" class="form-status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq reveal" aria-labelledby="faq-heading">
+      <div class="container">
+        <h3 id="faq-heading" class="section-title">Frequently asked questions</h3>
+
+        <div class="faq-list" role="list">
+          <div class="faq-item card" data-index="0">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">How do I book a session?</button>
+            <div id="faq1" class="faq-answer" role="region" aria-labelledby="faq1-btn" hidden>
+              <p>Use the booking request form on the Tutoring section. We will contact you to confirm availability and finalize the appointment.</p>
+            </div>
+          </div>
+
+          <div class="faq-item card" data-index="1">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">What is your pricing?</button>
+            <div id="faq2" class="faq-answer" role="region" aria-labelledby="faq2-btn" hidden>
+              <p>Standard session pricing is $<span class="session-price" data-price></span> per 45-minute session. Packages or discounts may be available — ask when you request booking.</p>
+            </div>
+          </div>
+
+          <div class="faq-item card" data-index="2">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">Do you do homework help?</button>
+            <div id="faq3" class="faq-answer" role="region" aria-labelledby="faq3-btn" hidden>
+              <p>Yes — tutors can help with homework, concept review, and building stronger foundations. Sessions are tailored to the student's needs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact reveal" aria-labelledby="contact-heading">
+      <div class="container">
+        <h3 id="contact-heading" class="section-title">Contact</h3>
+        <p class="section-sub">Questions? Use this form and we'll get back to you — this is a message request and not a guarantee of a reply.</p>
+
+        <form id="contact-form" class="card contact-form" novalidate>
+          <div class="form-row">
+            <label for="contact-name">Name *</label>
+            <input id="contact-name" name="name" required>
+            <div class="field-error" data-for="contact-name" aria-live="polite"></div>
+          </div>
+
+          <div class="form-row">
+            <label for="contact-email">Email *</label>
+            <input id="contact-email" name="email" type="email" required>
+            <div class="field-error" data-for="contact-email" aria-live="polite"></div>
+          </div>
+
+          <div class="form-row">
+            <label for="contact-who">Who are you? *</label>
+            <select id="contact-who" name="who" required>
+              <option value="">Select</option>
+              <option>Parent/Guardian</option>
+              <option>Student</option>
+              <option>Tutor</option>
+              <option>Other</option>
+            </select>
+            <div class="field-error" data-for="contact-who" aria-live="polite"></div>
+          </div>
+
+          <div class="form-row">
+            <label for="contact-message">Message *</label>
+            <textarea id="contact-message" name="message" rows="4" required></textarea>
+            <div class="field-error" data-for="contact-message" aria-live="polite"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send Message</button>
+            <div id="contact-form-status" class="form-status" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <svg class="brand-mark" width="36" height="36" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <rect width="64" height="64" rx="8" fill="#0f6b3a"></rect>
+          <text x="10" y="40" font-size="28" fill="#fff" font-weight="700">A</text>
+        </svg>
+        <div>
+          <p class="brand-title small">Axilyn</p>
+          <p class="muted">Math Tutoring for Grades 6–8</p>
+        </div>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <ul>
+          <li><a href="#home" data-nav>Home</a></li>
+          <li><a href="#why" data-nav>Why Axilyn</a></li>
+          <li><a href="#tutoring" data-nav>Tutoring</a></li>
+          <li><a href="#become-tutor" data-nav>Become a Tutor</a></li>
+          <li><a href="#contact" data-nav>Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-info">
+        <p class="muted">Contact requests are handled via the forms on this site. No phone number or email is listed publicly.</p>
+        <p class="copyright">© <span id="copyright-year"></span> Axilyn</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
