@@ -1,248 +1,146 @@
-document.addEventListener("DOMContentLoaded", () => {
-  /* =====================================================
-     AXILYN WEBSITE JAVASCRIPT
-     ===================================================== */
-
-  /* ---------- SESSION PRICE ---------- */
-
-  const SESSION_PRICE = 10;
-
-  const priceElements = document.querySelectorAll(
-    '[data-price-id="session-price"]'
-  );
-
-  priceElements.forEach((element) => {
-    element.textContent = `$${SESSION_PRICE}`;
-  });
-
-
-  /* ---------- MOBILE NAVIGATION ---------- */
-
-  const navToggle = document.getElementById("nav-toggle");
-  const navList = document.getElementById("nav-list");
-
-  if (navToggle && navList) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navList.classList.toggle("show");
-
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-
-      navToggle.setAttribute(
-        "aria-label",
-        isOpen ? "Close navigation" : "Open navigation"
-      );
-    });
-
-    /* Close menu after clicking a navigation link */
-
-    const navLinks = navList.querySelectorAll("a");
-
-    navLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        navList.classList.remove("show");
-
-        navToggle.setAttribute("aria-expanded", "false");
-        navToggle.setAttribute("aria-label", "Open navigation");
-      });
-    });
-  }
-
-
-  /* ---------- FAQ ---------- */
-
-  const faqQuestions = document.querySelectorAll(".faq-question");
-
-  faqQuestions.forEach((question) => {
-    question.addEventListener("click", () => {
-      const answer = question.nextElementSibling;
-
-      if (!answer) return;
-
-      const isOpen = question.getAttribute("aria-expanded") === "true";
-
-      /* Close all other FAQ answers */
-
-      faqQuestions.forEach((otherQuestion) => {
-        if (otherQuestion !== question) {
-          otherQuestion.setAttribute("aria-expanded", "false");
-
-          const otherAnswer = otherQuestion.nextElementSibling;
-
-          if (otherAnswer) {
-            otherAnswer.hidden = true;
-          }
-        }
-      });
-
-      /* Toggle selected FAQ */
-
-      question.setAttribute("aria-expanded", String(!isOpen));
-
-      answer.hidden = isOpen;
-    });
-  });
-
-
-  /* ---------- SCROLL REVEAL ---------- */
-
-  const revealElements = document.querySelectorAll(".reveal");
-
-  if ("IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12
-      }
-    );
-
-    revealElements.forEach((element) => {
-      revealObserver.observe(element);
-    });
-  } else {
-    /* Older browsers */
-
-    revealElements.forEach((element) => {
-      element.classList.add("visible");
-    });
-  }
-
-
-  /* ---------- ACTIVE NAVIGATION ---------- */
-
-  const sections = document.querySelectorAll("section[id]");
-  const navigationLinks = document.querySelectorAll(".nav-link");
-
-  if ("IntersectionObserver" in window) {
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const sectionId = entry.target.getAttribute("id");
-
-          navigationLinks.forEach((link) => {
-            const linkTarget = link.getAttribute("href");
-
-            link.classList.toggle(
-              "active",
-              linkTarget === `#${sectionId}`
-            );
-          });
-        });
-      },
-      {
-        rootMargin: "-30% 0px -60% 0px"
-      }
-    );
-
-    sections.forEach((section) => {
-      sectionObserver.observe(section);
-    });
-  }
-
-
-  /* ---------- BOOKING FORM ---------- */
-
-  const bookingForm = document.getElementById("booking-form");
-  const bookingFeedback = document.getElementById("booking-feedback");
-
-  if (bookingForm && bookingFeedback) {
-    bookingForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      if (!bookingForm.checkValidity()) {
-        bookingForm.reportValidity();
-        return;
-      }
-
-      bookingFeedback.textContent =
-        "Your booking request has been received. We will contact you to confirm availability.";
-
-      bookingForm.reset();
-    });
-  }
-
-
-  /* ---------- TUTOR APPLICATION ---------- */
-
-  const tutorForm = document.getElementById("tutor-form");
-  const tutorFeedback = document.getElementById("tutor-feedback");
-
-  if (tutorForm && tutorFeedback) {
-    tutorForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      if (!tutorForm.checkValidity()) {
-        tutorForm.reportValidity();
-        return;
-      }
-
-      tutorFeedback.textContent =
-        "Your application has been received. Thank you for your interest in tutoring with Axilyn.";
-
-      tutorForm.reset();
-    });
-  }
-
-
-  /* ---------- CONTACT FORM ---------- */
-
-  const contactForm = document.getElementById("contact-form");
-  const contactFeedback = document.getElementById("contact-feedback");
-
-  if (contactForm && contactFeedback) {
-    contactForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      if (!contactForm.checkValidity()) {
-        contactForm.reportValidity();
-        return;
-      }
-
-      contactFeedback.textContent =
-        "Your message has been received. We will get back to you soon.";
-
-      contactForm.reset();
-    });
-  }
-
-
-  /* ---------- SMOOTH INTERNAL LINKS ---------- */
-
-  const internalLinks = document.querySelectorAll('a[href^="#"]');
-
-  internalLinks.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const targetId = link.getAttribute("href");
-
-      if (!targetId || targetId === "#") return;
-
-      const target = document.querySelector(targetId);
-
-      if (!target) return;
-
-      event.preventDefault();
-
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  });
-
-
-  /* ---------- SET CURRENT YEAR ---------- */
-
-  const yearElements = document.querySelectorAll("[data-current-year]");
-
-  yearElements.forEach((element) => {
-    element.textContent = new Date().getFullYear();
-  });
-});
+:root{
+  --brand-green: #0f6b3a;
+  --green-100: #eaf6ee;
+  --bg: #ffffff;
+  --muted: #6b6b6b;
+  --text: #0b0b0b;
+  --card-radius: 12px;
+  --shadow: 0 6px 18px rgba(11,11,11,0.06);
+  --max-width: 1100px;
+  --focus: 3px solid rgba(15,107,58,0.18);
+}
+
+/* Basic resets */
+*{box-sizing:border-box}
+html{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg, #ffffff 0%, #fbfff8 100%);line-height:1.45}
+.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+
+/* Skip link */
+.skip-link{
+  position:fixed;left:1rem;top:1rem;background:var(--brand-green);color:#fff;padding:0.5rem 0.75rem;border-radius:6px;z-index:60;transform:translateY(-200%);transition:transform .2s;
+}
+.skip-link:focus{transform:translateY(0)}
+
+/* Header */
+.site-header{background:#fff;border-bottom:1px solid #eef6ee;position:sticky;top:0;z-index:50}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.75rem 0}
+.brand{display:flex;gap:0.75rem;align-items:center}
+.brand-mark{flex-shrink:0;border-radius:6px}
+.brand-title{margin:0;font-size:1.1rem}
+.brand-tag{margin:0;font-size:0.82rem;color:var(--muted)}
+
+/* Navigation */
+.nav{display:block}
+.nav-list{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
+.nav-list a{display:inline-block;padding:0.6rem 0.5rem;color:var(--text);text-decoration:none;border-radius:6px}
+.nav-list a:hover, .nav-list a:focus{background:var(--green-100);outline:none}
+.nav-list a.active{color:var(--brand-green);font-weight:600;border-bottom:3px solid var(--brand-green)}
+
+/* Hamburger */
+.nav-toggle{display:none;background:transparent;border:0;padding:0.5rem;border-radius:8px}
+.nav-toggle:focus{outline:none;box-shadow:var(--focus)}
+.hamburger{display:inline-block;width:34px;height:22px;position:relative}
+.hamburger .line{position:absolute;left:0;right:0;height:3px;background:var(--text);border-radius:3px;transition:transform .25s,opacity .2s}
+.hamburger .line:nth-child(1){top:0}
+.hamburger .line:nth-child(2){top:9px}
+.hamburger .line:nth-child(3){bottom:0}
+
+/* Hero */
+.hero{padding:3rem 0}
+.hero-inner{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:center}
+.hero-title{font-size:1.9rem;margin:0 0 0.5rem}
+.hero-lead{margin:0 0 1rem;color:var(--muted)}
+.hero-ctas{display:flex;gap:0.75rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:0.6rem 0.9rem;border-radius:10px;font-weight:600;cursor:pointer;border:2px solid transparent;text-decoration:none}
+.btn:focus{outline:none;box-shadow:var(--focus)}
+.btn-primary{background:var(--brand-green);color:#fff;border-color:var(--brand-green);box-shadow:none;transition:transform .12s, box-shadow .12s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,107,58,0.12)}
+.btn-secondary{background:transparent;color:var(--brand-green);border-color:var(--brand-green)}
+
+/* Hero visual */
+.hero-visual{display:flex;justify-content:center;align-items:center}
+.math-svg{width:100%;max-width:420px;border-radius:12px;box-shadow:var(--shadow)}
+
+/* Sections */
+.section{padding:2rem 0}
+.section-title{margin:0 0 0.25rem;font-size:1.25rem}
+.section-sub{margin:0 0 1rem;color:var(--muted)}
+
+/* Cards / Offers */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.card{background:#fff;border-radius:var(--card-radius);padding:1rem;box-shadow:var(--shadow);border:1px solid rgba(15,107,58,0.04)}
+.card.small{padding:0.8rem}
+.card .card-title{margin:0 0 0.4rem;font-weight:700}
+.card .card-body{margin:0;color:var(--muted)}
+.card:focus{outline:none;box-shadow:0 12px 28px rgba(11,11,11,0.08)}
+.card:hover{transform:translateY(-6px);transition:transform .18s}
+
+/* Why */
+.why-inner{display:flex;flex-direction:column}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.why-item{background:var(--green-100);padding:1rem;border-radius:10px;color:var(--brand-green);}
+
+/* Tutoring layout */
+.tutoring-inner{display:grid;grid-template-columns:1fr 360px;gap:1.25rem;align-items:start}
+.features-list{list-style:disc;margin:0 0 1rem 1.25rem;color:var(--muted)}
+.pricing .price{font-size:1.1rem;font-weight:700;color:var(--brand-green)}
+
+/* Forms */
+.form-row{display:flex;flex-direction:column;margin-bottom:0.75rem}
+.form-row label{font-size:0.95rem;margin-bottom:0.35rem}
+.form-row input[type="text"], .form-row input[type="email"], .form-row input[type="date"], .form-row input[type="time"], .form-row select, .form-row textarea{
+  padding:0.6rem;border-radius:8px;border:1px solid #e6efe8;background:#fff;font-size:0.95rem
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus{outline:none;box-shadow:var(--focus)}
+.field-error{color:#b82f2f;font-size:0.9rem;min-height:1.2rem}
+.form-actions{display:flex;gap:0.75rem;align-items:center}
+.form-status{color:var(--brand-green);font-weight:600}
+
+/* FAQ */
+.faq-list{display:grid;gap:0.75rem;margin-top:1rem}
+.faq-question{width:100%;text-align:left;padding:0.9rem;border:0;background:transparent;font-weight:600;cursor:pointer;border-radius:8px}
+.faq-question[aria-expanded="true"]{background:linear-gradient(90deg, rgba(15,107,58,0.06), rgba(15,107,58,0.03))}
+.faq-answer{padding:0.8rem 0 0.2rem;color:var(--muted)}
+
+/* Footer */
+.site-footer{border-top:1px solid #eef6ee;background:#fff;padding:1.25rem 0;margin-top:2rem}
+.footer-inner{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}
+.footer-nav ul{list-style:none;padding:0;margin:0;display:flex;gap:0.9rem}
+.footer-nav a{color:var(--muted);text-decoration:none;font-size:0.95rem}
+
+/* Reveal (initial state) */
+.reveal{opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
+.reveal.in-view{opacity:1;transform:none}
+
+/* Responsive */
+@media (max-width:1024px){
+  .hero-inner{grid-template-columns:1fr 320px}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .tutoring-inner{grid-template-columns:1fr 320px}
+}
+
+@media (max-width:780px){
+  .container{padding:1rem}
+  .header-inner{gap:0.5rem}
+  .nav-list{flex-direction:column;gap:0}
+  .nav{position:fixed;inset:68px 0 0 0;background:#ffffff;padding:1rem;transform:translateY(-120%);transition:transform .25s;box-shadow:0 10px 30px rgba(11,11,11,0.06);z-index:55}
+  .nav.open{transform:translateY(0)}
+  .nav-toggle{display:block}
+  .hero-inner{grid-template-columns:1fr;gap:1rem}
+  .hero-visual{order: -1}
+  .cards{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .tutoring-inner{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column;gap:1rem}
+}
+
+/* Focus visible */
+:focus{outline: none}
+a:focus, button:focus, input:focus, select:focus, textarea:focus{box-shadow:var(--focus);border-color:var(--brand-green)}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .btn-primary, .card, .hamburger .line{transition:none}
+}
