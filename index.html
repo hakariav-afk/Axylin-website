@@ -26,7 +26,7 @@
       </div>
 
       <button id="nav-toggle" class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Open navigation">
-        <span class="hamburger">
+        <span class="hamburger" aria-hidden="true">
           <span class="line"></span>
           <span class="line"></span>
           <span class="line"></span>
@@ -46,43 +46,107 @@
   </header>
 
   <main id="main" class="main">
+    <!-- Hero slider (5 slides mapped to main sections) -->
     <section class="hero section reveal" aria-labelledby="hero-heading">
       <div class="container hero-inner">
-        <div class="hero-copy">
-          <h2 id="hero-heading" class="hero-title">Personalized math support for confident learning</h2>
-          <p class="hero-lead">Focused, friendly tutoring for grades 6–8 — build strong foundations, gain confidence, and enjoy learning again.</p>
-          <div class="hero-ctas">
-            <a class="btn btn-primary" href="#tutoring" data-nav>Book a Session</a>
-            <a class="btn btn-secondary" href="#why" data-nav>Why Axilyn</a>
-          </div>
-        </div>
+        <div id="hero-slider" class="hero-slider" role="region" aria-roledescription="carousel" aria-label="Axilyn highlights">
+          <!-- Slide 0: Home -->
+          <div class="hero-slide" data-slide="0" aria-hidden="false">
+            <div class="hero-copy">
+              <h2 id="hero-heading" class="hero-title">Personalized math support for confident learning</h2>
+              <p class="hero-lead">Focused, friendly tutoring for grades 6–8 — build strong foundations, gain confidence, and enjoy learning again.</p>
+              <div class="hero-ctas">
+                <a class="btn btn-primary" href="#tutoring" data-nav data-slide-to="2">Book a Session</a>
+                <a class="btn btn-secondary" href="#why" data-nav data-slide-to="1">Why Axilyn</a>
+              </div>
+            </div>
 
-        <div class="hero-visual" aria-hidden="true">
-          <!-- Math-themed SVG (keeps math visuals) -->
-          <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" class="math-svg">
-            <defs>
-              <linearGradient id="g1" x1="0" x2="1">
-                <stop offset="0" stop-color="#eaf6ee"/>
-                <stop offset="1" stop-color="#f6fff8"/>
-              </linearGradient>
-            </defs>
-            <rect x="0" y="0" width="400" height="300" rx="16" fill="url(#g1)"/>
-            <g transform="translate(20,20)" fill="#0f6b3a" opacity="0.9" >
-              <text x="0" y="40" font-size="36" font-weight="600">x + y = ?</text>
-              <g transform="translate(0,80)">
-                <circle cx="40" cy="40" r="34" fill="#fff" stroke="#d6f0df" stroke-width="4"></circle>
-                <text x="28" y="52" font-size="28" fill="#0f6b3a" font-weight="700">+</text>
-              </g>
-              <g transform="translate(140,40)" opacity="0.9">
-                <path d="M10 10 L60 10 L60 60 L10 60 Z" fill="#0f6b3a" opacity="0.08"></path>
-                <text x="0" y="70" font-size="26" fill="#0f6b3a">45 min</text>
-              </g>
-            </g>
-          </svg>
+            <div class="hero-visual" aria-hidden="true">
+              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" class="math-svg" role="img" aria-hidden="true">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="1">
+                    <stop offset="0" stop-color="#eaf6ee"/>
+                    <stop offset="1" stop-color="#f6fff8"/>
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="400" height="300" rx="16" fill="url(#g1)"/>
+                <g transform="translate(20,20)" fill="#0f6b3a" opacity="0.9" >
+                  <text x="0" y="40" font-size="36" font-weight="600">x + y = ?</text>
+                  <g transform="translate(0,80)">
+                    <circle cx="40" cy="40" r="34" fill="#fff" stroke="#d6f0df" stroke-width="4"></circle>
+                    <text x="28" y="52" font-size="28" fill="#0f6b3a" font-weight="700">+</text>
+                  </g>
+                  <g transform="translate(140,40)" opacity="0.9">
+                    <path d="M10 10 L60 10 L60 60 L10 60 Z" fill="#0f6b3a" opacity="0.08"></path>
+                    <text x="0" y="70" font-size="26" fill="#0f6b3a">45 min</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Slide 1: Why Axilyn -->
+          <div class="hero-slide" data-slide="1" aria-hidden="true">
+            <div class="hero-copy">
+              <h2 class="hero-title">Why Axilyn</h2>
+              <p class="hero-lead">Structured lessons, targeted practice, and patient guidance help students grow.</p>
+              <div class="hero-ctas">
+                <a class="btn btn-primary" href="#become-tutor" data-nav data-slide-to="3">Join as a Tutor</a>
+                <a class="btn btn-secondary" href="#tutoring" data-nav data-slide-to="2">See Tutoring</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Tutoring -->
+          <div class="hero-slide" data-slide="2" aria-hidden="true">
+            <div class="hero-copy">
+              <h2 class="hero-title">Tutoring services</h2>
+              <p class="hero-lead">One-on-one support for grades 6–8 — homework help, concept review, and steady progress.</p>
+              <p class="muted">Session price: $<span class="session-price" data-price></span> / 45-minute session</p>
+              <div class="hero-ctas">
+                <a class="btn btn-primary" href="#tutoring" data-nav data-slide-to="2">Book a Session</a>
+                <a class="btn btn-secondary" href="#contact" data-nav data-slide-to="4">Contact Us</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Become a Tutor -->
+          <div class="hero-slide" data-slide="3" aria-hidden="true">
+            <div class="hero-copy">
+              <h2 class="hero-title">Become a Tutor</h2>
+              <p class="hero-lead">Help students build confidence while gaining teaching experience.</p>
+              <div class="hero-ctas">
+                <a class="btn btn-primary" href="#become-tutor" data-nav data-slide-to="3">Apply Now</a>
+                <a class="btn btn-secondary" href="#why" data-nav data-slide-to="1">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4: Contact -->
+          <div class="hero-slide" data-slide="4" aria-hidden="true">
+            <div class="hero-copy">
+              <h2 class="hero-title">Contact Axilyn</h2>
+              <p class="hero-lead">Questions? Send us a message and we'll get back to you. This is a message request and not a guaranteed reply.</p>
+              <div class="hero-ctas">
+                <a class="btn btn-primary" href="#contact" data-nav data-slide-to="4">Get in Touch</a>
+                <a class="btn btn-secondary" href="#tutoring" data-nav data-slide-to="2">Tutoring Details</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slider dots -->
+          <div class="slider-dots" role="tablist" aria-label="Hero slides">
+            <button class="dot" data-go="0" aria-label="Home" aria-selected="true"></button>
+            <button class="dot" data-go="1" aria-label="Why Axilyn" aria-selected="false"></button>
+            <button class="dot" data-go="2" aria-label="Tutoring" aria-selected="false"></button>
+            <button class="dot" data-go="3" aria-label="Become a Tutor" aria-selected="false"></button>
+            <button class="dot" data-go="4" aria-label="Contact" aria-selected="false"></button>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- What we offer -->
     <section id="offers" class="section offers reveal" aria-labelledby="offers-heading">
       <div class="container">
         <h3 id="offers-heading" class="section-title">What we offer</h3>
@@ -112,6 +176,7 @@
       </div>
     </section>
 
+    <!-- Why Axilyn -->
     <section id="why" class="section why reveal" aria-labelledby="why-heading">
       <div class="container why-inner">
         <h3 id="why-heading" class="section-title">Why Axilyn</h3>
@@ -139,6 +204,7 @@
       </div>
     </section>
 
+    <!-- Tutoring -->
     <section id="tutoring" class="section tutoring reveal" aria-labelledby="tutoring-heading">
       <div class="container tutoring-inner">
         <div class="tutoring-left">
@@ -217,6 +283,7 @@
       </div>
     </section>
 
+    <!-- Become a tutor -->
     <section id="become-tutor" class="section become-tutor reveal" aria-labelledby="become-heading">
       <div class="container">
         <h3 id="become-heading" class="section-title">Become a Tutor</h3>
@@ -267,6 +334,7 @@
       </div>
     </section>
 
+    <!-- FAQ -->
     <section id="faq" class="section faq reveal" aria-labelledby="faq-heading">
       <div class="container">
         <h3 id="faq-heading" class="section-title">Frequently asked questions</h3>
@@ -296,6 +364,7 @@
       </div>
     </section>
 
+    <!-- Contact -->
     <section id="contact" class="section contact reveal" aria-labelledby="contact-heading">
       <div class="container">
         <h3 id="contact-heading" class="section-title">Contact</h3>
